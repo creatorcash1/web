@@ -44,14 +44,14 @@ export default function FAQSection() {
         <div className="mt-14 bg-[#0D1B2A] rounded-2xl p-8 flex flex-col sm:flex-row items-center justify-between gap-6">
           <div>
             <h3 className="text-white font-headline text-xl mb-1">
-              Ready to start building?
+              Ready to build your $10k system?
             </h3>
             <p className="text-white/60 text-sm">
-              Join 500+ creators already growing their digital empire.
+              Get instant access to the complete training for $57.99
             </p>
           </div>
           <Button variant="primary" size="lg" href="/register?redirect=checkout">
-            Claim Your Spot Now
+            Get Started Now
           </Button>
         </div>
       </div>

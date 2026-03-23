@@ -41,7 +41,7 @@ export default function AdminContentSection({
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h2 className="text-xl font-bold text-white font-[family-name:var(--font-montserrat)]">
+        <h2 className="text-xl font-bold text-white font-(family-name:--font-montserrat)">
           Content Manager
         </h2>
         <p className="text-sm text-white/40 mt-1">
@@ -52,7 +52,7 @@ export default function AdminContentSection({
       {/* Content blocks grouped by page */}
       {Object.entries(grouped).map(([page, blocks]) => (
         <div key={page}>
-          <h3 className="text-sm font-semibold text-white/50 uppercase tracking-wider mb-3 capitalize">
+          <h3 className="text-sm font-semibold text-white/50 uppercase tracking-wider mb-3">
             {page} Page
           </h3>
           <div className="space-y-3">

@@ -56,7 +56,7 @@ export default function ProductPerformanceTable({ products }: Props) {
             {products.map((p) => (
               <tr
                 key={p.productId}
-                className="border-b border-white/[0.03] hover:bg-white/[0.02] transition-colors"
+                className="border-b border-white/3 hover:bg-white/2 transition-colors"
               >
                 <td className="py-2.5 pr-4">
                   <span className={`w-5 h-5 inline-flex items-center justify-center rounded-full text-[10px] font-bold ${

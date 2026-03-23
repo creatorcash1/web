@@ -94,7 +94,7 @@ export default function AdminMentorshipSection({ bookings }: { bookings: AdminBo
     <div className="space-y-4">
       {/* Header */}
       <div>
-        <h2 className="text-xl font-bold text-white font-[family-name:var(--font-montserrat)]">
+        <h2 className="text-xl font-bold text-white font-(family-name:--font-montserrat)">
           Mentorship Bookings
         </h2>
         <p className="text-sm text-white/40 mt-1">{bookings.length} total bookings</p>

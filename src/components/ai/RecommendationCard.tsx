@@ -31,7 +31,7 @@ export default function RecommendationCard({ product, onDismiss, onView }: Props
       : `/checkout/${product.productId}`;
 
   return (
-    <div className="group relative bg-gradient-to-br from-[#0D1B2A] to-[#162d44] border border-white/10 rounded-xl p-5 hover:border-[#FFC857]/30 transition-all duration-300">
+    <div className="group relative bg-linear-to-br from-[#0D1B2A] to-[#162d44] border border-white/10 rounded-xl p-5 hover:border-[#FFC857]/30 transition-all duration-300">
       {/* Top row */}
       <div className="flex items-start justify-between mb-3">
         <span className="text-xs text-white/40 font-medium">
@@ -49,7 +49,7 @@ export default function RecommendationCard({ product, onDismiss, onView }: Props
       </div>
 
       {/* Title */}
-      <h4 className="text-white font-bold text-sm mb-1.5 font-[family-name:var(--font-montserrat)]">
+      <h4 className="text-white font-bold text-sm mb-1.5 font-(family-name:--font-montserrat)">
         {product.title}
       </h4>
 

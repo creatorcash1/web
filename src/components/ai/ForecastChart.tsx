@@ -92,7 +92,7 @@ export default function ForecastChart({ forecast, compact = false }: Props) {
       {!compact && (
         <div className="grid grid-cols-3 gap-3">
           {forecast.periods.map((p) => (
-            <div key={p.label} className="bg-white/[0.03] rounded-lg p-3 border border-white/5">
+            <div key={p.label} className="bg-white/3 rounded-lg p-3 border border-white/5">
               <p className="text-xs font-semibold text-white/60">{p.label}</p>
               <p className="text-lg font-bold text-white">${p.projectedRevenue.toLocaleString()}</p>
               <p className="text-[10px] text-[#1CE7D0] mt-1">

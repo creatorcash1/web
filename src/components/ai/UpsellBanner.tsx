@@ -26,7 +26,7 @@ export default function UpsellBanner({ product, onDismiss, onView }: Props) {
       : `/checkout/${product.productId}`;
 
   return (
-    <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-[#0D1B2A] via-[#132d47] to-[#0d2e3a] border border-[#FFC857]/20 p-5 md:p-6 shadow-lg">
+    <div className="relative overflow-hidden rounded-2xl bg-linear-to-r from-[#0D1B2A] via-[#132d47] to-[#0d2e3a] border border-[#FFC857]/20 p-5 md:p-6 shadow-lg">
       {/* Glow decoration */}
       <div className="absolute -right-12 -top-12 w-40 h-40 bg-[#FFC857]/5 rounded-full blur-3xl" />
       <div className="absolute -left-8 -bottom-8 w-32 h-32 bg-[#1CE7D0]/5 rounded-full blur-2xl" />
@@ -34,7 +34,7 @@ export default function UpsellBanner({ product, onDismiss, onView }: Props) {
       {/* Content */}
       <div className="relative flex flex-col sm:flex-row items-start sm:items-center gap-4">
         {/* AI badge */}
-        <div className="flex items-center gap-2 bg-[#FFC857]/10 rounded-lg px-3 py-2 flex-shrink-0">
+        <div className="flex items-center gap-2 bg-[#FFC857]/10 rounded-lg px-3 py-2 shrink-0">
           <SparklesIcon className="w-5 h-5 text-[#FFC857]" />
           <span className="text-xs font-bold text-[#FFC857] uppercase tracking-wider">
             AI Pick
@@ -43,14 +43,14 @@ export default function UpsellBanner({ product, onDismiss, onView }: Props) {
 
         {/* Text */}
         <div className="flex-1 min-w-0">
-          <h3 className="text-white font-bold text-sm md:text-base font-[family-name:var(--font-montserrat)]">
+          <h3 className="text-white font-bold text-sm md:text-base font-(family-name:--font-montserrat)">
             {product.title}
           </h3>
           <p className="text-white/50 text-xs mt-1 line-clamp-1">{product.reason}</p>
         </div>
 
         {/* Pricing + CTA */}
-        <div className="flex items-center gap-3 flex-shrink-0">
+        <div className="flex items-center gap-3 shrink-0">
           {hasDiscount ? (
             <div className="text-right">
               <span className="text-[#FFC857] font-bold text-lg">${product.discountedPrice}</span>

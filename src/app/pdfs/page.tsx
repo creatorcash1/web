@@ -12,7 +12,7 @@ export default function PDFsPage() {
           {PDF_CATALOG.map((pdf) => (
             <article key={pdf.pdfId} className="bg-white border border-[#E5E5E5] rounded-2xl p-5 shadow-sm">
               <h2 className="text-lg font-bold text-[#0D1B2A]">{pdf.title}</h2>
-              <p className="text-sm text-gray-500 mt-2 min-h-[48px]">{pdf.description}</p>
+              <p className="text-sm text-gray-500 mt-2 min-h-12">{pdf.description}</p>
               <p className="text-xl font-black text-[#FFC857] mt-4">${pdf.price}</p>
               <div className="mt-4 flex gap-2">
                 <Link href={`/pdfs/${pdf.pdfId}`} className="px-4 py-2 rounded-lg bg-[#0D1B2A] text-white text-xs font-bold uppercase">Learn More</Link>

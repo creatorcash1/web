@@ -24,8 +24,7 @@ export default function TestimonialsSection() {
             <span className="text-[#FFC857]">Took Action</span>
           </h2>
           <p className="text-gray-500 text-lg max-w-xl mx-auto">
-            Don&rsquo;t take our word for it — hear from the community building
-            their empires right now.
+            See how students are transforming their knowledge into consistent income streams.
           </p>
         </div>
 
@@ -35,10 +34,10 @@ export default function TestimonialsSection() {
         {/* ── Trust strip ──────────────────────────────── */}
         <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
           {[
-            { stat: "500+", label: "Active Creators" },
-            { stat: "5",    label: "Premium Courses" },
-            { stat: "$1M+", label: "Creator Revenue Generated" },
+            { stat: "200+", label: "Students Enrolled" },
+            { stat: "97 min",    label: "Training Content" },
             { stat: "4.9★", label: "Average Rating" },
+            { stat: "30 days", label: "Money-Back Guarantee" },
           ].map(({ stat, label }) => (
             <div key={label} className="flex flex-col gap-1">
               <span className="font-headline text-3xl text-[#0D1B2A]">{stat}</span>

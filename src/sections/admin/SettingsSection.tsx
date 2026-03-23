@@ -29,7 +29,7 @@ export default function AdminSettingsSection({
     <div className="space-y-6 max-w-2xl">
       {/* Header */}
       <div>
-        <h2 className="text-xl font-bold text-white font-[family-name:var(--font-montserrat)]">
+        <h2 className="text-xl font-bold text-white font-(family-name:--font-montserrat)">
           System Settings
         </h2>
         <p className="text-sm text-white/40 mt-1">

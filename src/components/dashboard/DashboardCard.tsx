@@ -22,7 +22,7 @@ export default function DashboardCard({
                  transition-all duration-300 flex items-start gap-4"
     >
       {/* Icon circle */}
-      <div className="w-12 h-12 rounded-xl bg-[#0D1B2A] flex items-center justify-center text-[#FFC857] flex-shrink-0">
+      <div className="w-12 h-12 rounded-xl bg-[#0D1B2A] flex items-center justify-center text-[#FFC857] shrink-0">
         {icon}
       </div>
 

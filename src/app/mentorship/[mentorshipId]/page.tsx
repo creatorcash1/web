@@ -27,11 +27,6 @@ export default function MentorshipDetailPage() {
     staleTime: 5 * 60 * 1000,
   });
 
-  if (isLoading) return <main className="p-8 text-sm text-gray-500">Loading mentorship…</main>;
-  if (!mentorship) return <main className="p-8 text-sm text-red-500">Mentorship not found.</main>;
-
-  const alreadyBooked = (dashboard?.bookings.length ?? 0) > 0;
-
   useEffect(() => {
     if (!trackingId) return;
     trackEvent({
@@ -43,6 +38,11 @@ export default function MentorshipDetailPage() {
       metadata: { trackingId },
     });
   }, [trackingId, trackingUser, mentorshipId]);
+
+  if (isLoading) return <main className="p-8 text-sm text-gray-500">Loading mentorship…</main>;
+  if (!mentorship) return <main className="p-8 text-sm text-red-500">Mentorship not found.</main>;
+
+  const alreadyBooked = (dashboard?.bookings.length ?? 0) > 0;
 
   return (
     <main className="min-h-screen bg-[#F7F8FA] px-4 sm:px-6 lg:px-8 py-10">

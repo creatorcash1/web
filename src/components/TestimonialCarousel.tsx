@@ -94,7 +94,7 @@ export default function TestimonialCarousel() {
       >
         {/* Quote mark */}
         <div className="text-6xl text-[#FFC857] font-black leading-none mb-4 select-none" aria-hidden="true">
-          "
+          &ldquo;
         </div>
 
         <p className="text-[#0D1B2A] text-lg md:text-xl leading-relaxed mb-6 italic">

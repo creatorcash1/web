@@ -2,24 +2,19 @@
 // Scarcity section: first-5-buyers price, countdown timer, free mentorship
 // badge, and gold CTA button.
 // ─────────────────────────────────────────────────────────────────────────────
-import CountdownTimer from "@/components/CountdownTimer";
 import Button from "@/components/Button";
 import {
   CheckBadgeIcon,
-  ClockIcon,
   UserGroupIcon,
   GiftIcon,
 } from "@heroicons/react/24/solid";
 
-// Target: first day of next month at midnight
-const TARGET_DATE = "2026-03-01T23:59:59";
-
 const perks = [
-  { Icon: CheckBadgeIcon, text: "All 5 premium courses (lifetime access)" },
-  { Icon: GiftIcon,       text: "FREE 2-hour 1:1 mentorship with CC Mendel ($950 value)" },
-  { Icon: CheckBadgeIcon, text: "All downloadable templates & resources" },
-  { Icon: CheckBadgeIcon, text: "Access to private creator community" },
-  { Icon: CheckBadgeIcon, text: "7-day satisfaction guarantee" },
+  { Icon: CheckBadgeIcon, text: "2 complete video trainings (97 minutes total)" },
+  { Icon: CheckBadgeIcon, text: "Complete implementation ebook with templates" },
+  { Icon: CheckBadgeIcon, text: "Lifetime access to all course materials" },
+  { Icon: CheckBadgeIcon, text: "Action checklist and worksheets" },
+  { Icon: GiftIcon,       text: "30-day money-back guarantee" },
 ];
 
 export default function LiveOfferSection() {
@@ -53,34 +48,32 @@ export default function LiveOfferSection() {
               id="offer-heading"
               className="font-headline text-3xl sm:text-4xl lg:text-5xl text-[#0D1B2A] mb-4"
             >
-              Claim Your Spot —
+              Get Started Today —
               <br />
-              <span className="text-[#FFC857]">First 5 Buyers</span> Get Everything
+              <span className="text-[#FFC857]">$10k System</span> for Just $57.99
             </h2>
 
             <p className="text-gray-600 text-lg mb-8">
-              Right now, the full platform access is dropping to{" "}
-              <strong className="text-[#0D1B2A]">$399</strong> (was $550) — and the
-              first five people who grab it also get a{" "}
-              <strong className="text-[#0D1B2A]">FREE 2-hour 1:1 mentorship</strong>{" "}
-              session with CC Mendel. This price goes back up when the timer hits zero.
+              This complete training system gives you everything you need to turn your knowledge into consistent $10,000+ monthly income.{" "}
+              <strong className="text-[#0D1B2A]">2 video trainings + implementation ebook</strong>{" "}
+              with lifetime access and a 30-day money-back guarantee.
             </p>
 
             {/* Perk list */}
             <ul className="flex flex-col gap-3 mb-10" aria-label="Bundle inclusions">
               {perks.map(({ Icon, text }, i) => (
                 <li key={i} className="flex items-start gap-3">
-                  <Icon className="w-5 h-5 text-[#1CE7D0] flex-shrink-0 mt-0.5" aria-hidden="true" />
+                  <Icon className="w-5 h-5 text-[#1CE7D0] shrink-0 mt-0.5" aria-hidden="true" />
                   <span className="text-sm text-gray-700">{text}</span>
                 </li>
               ))}
             </ul>
 
-            {/* Seats remaining */}
+            {/* Seats info */}
             <div className="flex items-center gap-2 mb-6">
               <UserGroupIcon className="w-5 h-5 text-[#FFC857]" aria-hidden="true" />
               <p className="text-sm font-semibold text-[#0D1B2A]">
-                Only <span className="text-[#FFC857]">3 spots remaining</span> at this price
+                <span className="text-[#FFC857]">Instant access</span> — start learning in 2 minutes
               </p>
             </div>
           </div>
@@ -90,34 +83,32 @@ export default function LiveOfferSection() {
             <div className="bg-[#0D1B2A] rounded-3xl p-8 md:p-10 shadow-2xl border border-[#FFC857]/20">
               {/* Section label */}
               <p className="text-[#1CE7D0] text-xs font-bold uppercase tracking-widest mb-4">
-                Full Access Bundle
+                Complete Course
               </p>
 
               {/* Price */}
               <div className="flex items-end gap-3 mb-2">
-                <span className="text-5xl font-black text-[#FFC857]">$399</span>
-                <span className="text-white/40 text-2xl line-through mb-1">$550</span>
+                <span className="text-5xl font-black text-[#FFC857]">$57.99</span>
               </div>
               <p className="text-white/60 text-sm mb-6">One-time payment · Lifetime access</p>
 
-              {/* Countdown */}
+              {/* What's included */}
               <div className="bg-white/5 rounded-2xl p-4 mb-8">
-                <div className="flex items-center gap-2 mb-3">
-                  <ClockIcon className="w-4 h-4 text-[#FFC857]" aria-hidden="true" />
-                  <p className="text-white/60 text-xs font-semibold uppercase tracking-wider">
-                    Offer expires in
-                  </p>
-                </div>
-                <CountdownTimer targetDate={TARGET_DATE} />
+                <ul className="space-y-2 text-left text-white/80 text-sm">
+                  <li>✓ Video 1: Foundation (45 min)</li>
+                  <li>✓ Video 2: Execution (52 min)</li>
+                  <li>✓ Implementation ebook</li>
+                  <li>✓ Templates & worksheets</li>
+                </ul>
               </div>
 
               {/* CTA */}
-              <Button variant="primary" size="lg" href="/checkout/mentorship-2hr" fullWidth>
-                Claim Your Spot Now
+              <Button variant="primary" size="lg" href="/register?redirect=checkout" fullWidth>
+                Start Learning Now
               </Button>
 
               <p className="text-center text-white/40 text-xs mt-4">
-                🔒 Secure checkout · Stripe & PayPal accepted
+                🔒 Secure checkout · 30-day money-back guarantee
               </p>
             </div>
           </div>

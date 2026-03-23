@@ -33,7 +33,6 @@ import type {
   AIMessage,
   HTMLEmailTemplate,
   EmailCampaign,
-  CampaignStep,
   RevenueOptimization,
   SuggestedBundle,
   RevenueForecast,
@@ -381,8 +380,7 @@ export function strategizeUpsell(
 
 export function optimizeRevenue(
   input: AIBrainInput,
-  behavior: BehaviorAnalysis,
-  upsell: UpsellRecommendation
+  behavior: BehaviorAnalysis
 ): RevenueOptimization {
   const bundles: SuggestedBundle[] = [];
 
@@ -481,7 +479,6 @@ export function optimizeRevenue(
     const purchased = input.purchasedPDFs.find((pdf) => pdf.pdfId === p.productId);
     const hasBought = !!(enrolled || purchased || (p.productType === "mentorship" && input.mentorshipBooked));
     // Simulated analytics per product
-    const baseRevenue = hasBought ? p.price : 0;
     const simSales = hasBought ? Math.floor(Math.random() * 50 + 10) : Math.floor(Math.random() * 20 + 2);
     const simRevenue = p.price * simSales;
     return {
@@ -1284,7 +1281,7 @@ export function runAIBrainPipeline(input: AIBrainInput): AIBrainOutput {
   const upsell = strategizeUpsell(input, behavior, churn);
 
   // Step 4: Revenue optimization (includes forecast + product performance)
-  const revenue = optimizeRevenue(input, behavior, upsell);
+  const revenue = optimizeRevenue(input, behavior);
 
   // Step 5: Content generation (includes HTML emails + campaigns)
   const content = generateContent(input, behavior, churn, upsell);

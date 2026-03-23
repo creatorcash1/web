@@ -21,7 +21,7 @@ export default function AdminAnalyticsSection({ analytics }: { analytics: Analyt
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h2 className="text-xl font-bold text-white font-[family-name:var(--font-montserrat)]">
+        <h2 className="text-xl font-bold text-white font-(family-name:--font-montserrat)">
           Analytics
         </h2>
         <p className="text-sm text-white/40 mt-1">
@@ -34,7 +34,7 @@ export default function AdminAnalyticsSection({ analytics }: { analytics: Analyt
         {metricCards.map((m) => (
           <div key={m.label} className="bg-[#0D1B2A] rounded-xl border border-white/5 p-5">
             <p className="text-xs text-white/40 uppercase tracking-wider">{m.label}</p>
-            <p className={`text-2xl font-bold mt-2 font-[family-name:var(--font-montserrat)] ${m.color}`}>
+            <p className={`text-2xl font-bold mt-2 font-(family-name:--font-montserrat) ${m.color}`}>
               {m.value}
             </p>
           </div>

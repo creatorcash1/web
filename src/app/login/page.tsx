@@ -46,11 +46,11 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0D1B2A] to-[#1a2f42] flex items-center justify-center px-4 py-12">
+    <div className="min-h-screen bg-linear-to-br from-[#0D1B2A] to-[#1a2f42] flex items-center justify-center px-4 py-12">
       <div className="max-w-md w-full bg-white rounded-2xl shadow-2xl p-8">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-extrabold text-[#0D1B2A] mb-2 font-[family-name:var(--font-montserrat)]">
+          <h1 className="text-3xl font-extrabold text-[#0D1B2A] mb-2 font-(family-name:--font-montserrat)">
             Welcome Back
           </h1>
           <p className="text-gray-600 text-sm">

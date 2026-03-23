@@ -27,7 +27,7 @@ export default function PaymentRow({ payment }: Props) {
                  border-b border-[#E5E5E5] last:border-0 hover:bg-[#E5E5E5]/40 transition-colors duration-150"
     >
       {/* Date */}
-      <span className="text-xs text-gray-400 sm:w-28 flex-shrink-0">{date}</span>
+      <span className="text-xs text-gray-400 sm:w-28 shrink-0">{date}</span>
 
       {/* Item */}
       <span className="text-sm font-medium text-[#0D1B2A] flex-1">{payment.item}</span>

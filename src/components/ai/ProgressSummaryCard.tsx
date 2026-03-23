@@ -11,26 +11,26 @@ interface Props {
 
 export default function ProgressSummaryCard({ data }: Props) {
   return (
-    <div className="rounded-xl bg-white/[0.03] border border-white/5 p-5 space-y-4">
+    <div className="rounded-xl bg-white/3 border border-white/5 p-5 space-y-4">
       <div className="flex items-center gap-2">
         <span className="text-base">📊</span>
         <h4 className="text-sm font-bold text-white">Your Progress</h4>
       </div>
 
       <div className="grid grid-cols-2 gap-3">
-        <div className="bg-white/[0.03] rounded-lg p-3">
+        <div className="bg-white/3 rounded-lg p-3">
           <p className="text-2xl font-bold text-white">{data.totalCompleted}</p>
           <p className="text-[10px] text-white/40">of {data.totalCoursesEnrolled} courses completed</p>
         </div>
-        <div className="bg-white/[0.03] rounded-lg p-3">
+        <div className="bg-white/3 rounded-lg p-3">
           <p className="text-2xl font-bold text-[#FFC857]">{data.currentStreak}</p>
           <p className="text-[10px] text-white/40">day streak 🔥</p>
         </div>
-        <div className="bg-white/[0.03] rounded-lg p-3">
+        <div className="bg-white/3 rounded-lg p-3">
           <p className="text-2xl font-bold text-[#1CE7D0]">Top {data.percentileRank}%</p>
           <p className="text-[10px] text-white/40">of all creators</p>
         </div>
-        <div className="bg-white/[0.03] rounded-lg p-3">
+        <div className="bg-white/3 rounded-lg p-3">
           {/* Progress ring */}
           <p className="text-2xl font-bold text-white">
             {data.totalCoursesEnrolled > 0

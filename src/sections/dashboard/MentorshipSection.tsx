@@ -1,6 +1,7 @@
 // ─── MentorshipSection ───────────────────────────────────────────────────────
 // Shows booked mentorship sessions or a CTA to book one.
 // ─────────────────────────────────────────────────────────────────────────────
+import Link from "next/link";
 import { UserGroupIcon, SparklesIcon } from "@heroicons/react/24/outline";
 import BookingCard from "@/components/dashboard/BookingCard";
 import EmptyState from "@/components/dashboard/EmptyState";
@@ -23,9 +24,9 @@ export default function MentorshipSection({ bookings }: Props) {
         />
 
         {/* Extra CTA card */}
-        <div className="bg-gradient-to-r from-[#0D1B2A] to-[#0d2e3a] rounded-2xl p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-lg">
+        <div className="bg-linear-to-r from-[#0D1B2A] to-[#0d2e3a] rounded-2xl p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-lg">
           <div className="flex items-start gap-4">
-            <SparklesIcon className="w-8 h-8 text-[#FFC857] flex-shrink-0" aria-hidden="true" />
+            <SparklesIcon className="w-8 h-8 text-[#FFC857] shrink-0" aria-hidden="true" />
             <div>
               <h3 className="text-white font-bold text-lg">Book Your 2-Hour 1:1 Mentorship</h3>
               <p className="text-white/60 text-sm mt-1">
@@ -33,14 +34,14 @@ export default function MentorshipSection({ bookings }: Props) {
               </p>
             </div>
           </div>
-          <a
+          <Link
             href="/mentorship/mentorship-2hr"
             className="inline-flex items-center justify-center bg-[#FFC857] text-[#0D1B2A] text-sm
                        font-bold uppercase tracking-wider rounded-full px-6 py-3
-                       hover:bg-[#f5b732] hover:scale-[1.03] transition-all duration-200 shadow-sm flex-shrink-0"
+                       hover:bg-[#f5b732] hover:scale-[1.03] transition-all duration-200 shadow-sm shrink-0"
           >
             Book Now — $950
-          </a>
+          </Link>
         </div>
       </div>
     );

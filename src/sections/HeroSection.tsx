@@ -27,7 +27,7 @@ export default function HeroSection() {
     >
       {/* ── Decorative blurs ────────────────────────── */}
       <div className="absolute -top-32 -left-32 w-96 h-96 rounded-full bg-[#1CE7D0]/10 blur-3xl pointer-events-none" aria-hidden="true" />
-      <div className="absolute bottom-0 right-0 w-[600px] h-[400px] rounded-full bg-[#FFC857]/5 blur-3xl pointer-events-none" aria-hidden="true" />
+      <div className="absolute bottom-0 right-0 w-150 h-100 rounded-full bg-[#FFC857]/5 blur-3xl pointer-events-none" aria-hidden="true" />
 
       {/* ── Floating sparks ─────────────────────────── */}
       {sparks.map((s, i) => (
@@ -40,7 +40,6 @@ export default function HeroSection() {
             height: s.size,
             top:    s.top,
             left:   s.left,
-            // @ts-ignore custom CSS vars
             "--duration": s.duration,
             "--delay":    s.delay,
           } as React.CSSProperties}
@@ -70,34 +69,32 @@ export default function HeroSection() {
                 <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-[#FFC857]" />
               </span>
               <span className="text-xs font-bold text-[#FFC857] uppercase tracking-wider">
-                Live Special Offer — First 5 Buyers Only
+                Limited Time Launch Offer
               </span>
             </div>
 
             {/* Headline */}
             <h1 className="font-headline text-4xl sm:text-5xl lg:text-6xl text-white leading-tight mb-6">
-              Build Your{" "}
-              <span className="gold-shimmer">Creator Empire</span>
-              {": "}
+              Turn What You Know Into{" "}
+              <span className="gold-shimmer">$10k Monthly</span>
               <br className="hidden sm:block" />
-              From{" "}
-              <span className="text-[#1CE7D0]">0</span> to Platform Owner
+              Starting{" "}
+              <span className="text-[#1CE7D0]">Today</span>
             </h1>
 
             {/* Subtitle */}
             <p className="text-white/75 text-lg md:text-xl leading-relaxed mb-8 max-w-xl">
-              Learn to monetize social media, build digital products, and scale
-              your creator income — step by step, with CC Mendel as your guide.
+              The complete system to transform your knowledge and skills into consistent $10,000+ monthly income. 2 video trainings + 1 implementation ebook.
             </p>
 
             {/* CTA row */}
             <div className="flex flex-col sm:flex-row gap-4">
               <Button variant="primary" size="lg" href="/register?redirect=checkout">
-                Get Full Access
+                Get Started – $57.99
               </Button>
-              <Button variant="secondary" size="lg" href="#demo">
+              <Button variant="secondary" size="lg" href="#what-you-get">
                 <PlayCircleIcon className="w-5 h-5 mr-2" aria-hidden="true" />
-                Watch Live Demo
+                See What&apos;s Inside
               </Button>
             </div>
 
@@ -109,7 +106,7 @@ export default function HeroSection() {
                   <img
                     key={n}
                     src={`https://i.pravatar.cc/40?img=${n}`}
-                    alt="Creator community member"
+                    alt="Student success story"
                     width={36}
                     height={36}
                     className="w-9 h-9 rounded-full border-2 border-[#0D1B2A] object-cover"
@@ -117,7 +114,7 @@ export default function HeroSection() {
                 ))}
               </div>
               <p className="text-white/60 text-sm">
-                <span className="text-[#FFC857] font-bold">500+</span> creators already inside
+                <span className="text-[#FFC857] font-bold">Join hundreds</span> building their income
               </p>
             </div>
           </div>
@@ -129,7 +126,7 @@ export default function HeroSection() {
 
             {/* Hero image placeholder */}
             <div
-              className="relative w-full max-w-md aspect-[4/5] rounded-3xl overflow-hidden
+              className="relative w-full max-w-md aspect-4/5 rounded-3xl overflow-hidden
                          border border-white/10 shadow-2xl shadow-black/50"
               aria-label="Hero illustration placeholder — creator working on laptop"
             >
@@ -139,16 +136,15 @@ export default function HeroSection() {
                 className="w-full h-full object-cover"
               />
               {/* Overlay gradient */}
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0D1B2A]/60 to-transparent" aria-hidden="true" />
+              <div className="absolute inset-0 bg-linear-to-t from-[#0D1B2A]/60 to-transparent" aria-hidden="true" />
 
               {/* Floating stats card */}
               <div className="absolute bottom-6 left-6 right-6 bg-white/10 backdrop-blur-md rounded-xl border border-white/20 p-4">
-                <p className="text-xs text-white/60 uppercase tracking-wider mb-1">Bundle Value</p>
+                <p className="text-xs text-white/60 uppercase tracking-wider mb-1">Complete Course</p>
                 <div className="flex items-end gap-2">
-                  <span className="text-2xl font-black text-[#FFC857]">$399</span>
-                  <span className="text-white/50 line-through text-sm mb-0.5">$550</span>
+                  <span className="text-2xl font-black text-[#FFC857]">$57.99</span>
                   <span className="ml-auto text-xs bg-[#1CE7D0]/20 text-[#1CE7D0] border border-[#1CE7D0]/30 rounded-full px-2 py-0.5 font-semibold">
-                    Save $151
+                    2 Videos + Ebook
                   </span>
                 </div>
               </div>

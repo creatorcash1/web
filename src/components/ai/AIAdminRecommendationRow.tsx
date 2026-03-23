@@ -31,7 +31,7 @@ const CATEGORY_ICONS: Record<string, string> = {
 
 export default function AIAdminRecommendationRow({ rec }: Props) {
   return (
-    <div className="bg-white/[0.02] border border-white/5 rounded-xl p-4 hover:border-white/10 transition-colors">
+    <div className="bg-white/2 border border-white/5 rounded-xl p-4 hover:border-white/10 transition-colors">
       <div className="flex items-start gap-3">
         <span className="text-lg mt-0.5">{CATEGORY_ICONS[rec.category] ?? "💡"}</span>
         <div className="flex-1 min-w-0">

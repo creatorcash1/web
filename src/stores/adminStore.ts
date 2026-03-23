@@ -15,7 +15,8 @@ export type AdminSection =
   | "analytics"
   | "content"
   | "settings"
-  | "ai-brain";
+  | "ai-brain"
+  | "tiktok-ops";
 
 interface AdminStore {
   /** Currently active sidebar section */

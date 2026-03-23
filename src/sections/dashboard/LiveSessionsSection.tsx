@@ -33,7 +33,6 @@ export default function LiveSessionsSection({ sessions }: Props) {
         <div className="flex flex-col gap-4">
           <h3 className="text-sm uppercase tracking-widest font-bold text-gray-400">Upcoming</h3>
           {upcoming.map((s) => {
-            const isPast = new Date(s.scheduled_date).getTime() < Date.now();
             return (
               <div
                 key={s.id}
@@ -57,19 +56,15 @@ export default function LiveSessionsSection({ sessions }: Props) {
                   <div className="flex flex-col items-end gap-3">
                     <DashboardCountdown targetDate={s.scheduled_date} />
                     <a
-                      href={isPast ? undefined : `/live/${s.id}`}
-                      aria-disabled={isPast}
+                      href={`/live/${s.id}`}
+                      aria-disabled={false}
                       className={`inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider
                         rounded-full px-5 py-2.5 transition-all duration-200
-                        ${
-                          isPast
-                            ? "bg-gray-200 text-gray-400 cursor-not-allowed"
-                            : "bg-[#FFC857] text-[#0D1B2A] hover:bg-[#f5b732] hover:scale-[1.03] shadow-sm"
-                        }`}
-                      aria-label={isPast ? "Session not yet active" : "Join live session"}
+                        bg-[#FFC857] text-[#0D1B2A] hover:bg-[#f5b732] hover:scale-[1.03] shadow-sm`}
+                      aria-label="Join live session"
                     >
                       <VideoCameraIcon className="w-4 h-4" aria-hidden="true" />
-                      {isPast ? "Waiting…" : "Join Now"}
+                      Join Now
                     </a>
                   </div>
                 </div>
@@ -97,7 +92,7 @@ export default function LiveSessionsSection({ sessions }: Props) {
                 href={s.replay_url ?? `/live/${s.id}`}
                 className="inline-flex items-center gap-1.5 bg-[#0D1B2A] text-white text-xs
                            font-bold uppercase tracking-wider rounded-full px-5 py-2.5
-                           hover:bg-[#1CE7D0] hover:text-[#0D1B2A] transition-all duration-200 flex-shrink-0"
+                           hover:bg-[#1CE7D0] hover:text-[#0D1B2A] transition-all duration-200 shrink-0"
               >
                 <PlayIcon className="w-4 h-4" aria-hidden="true" />
                 Watch Replay

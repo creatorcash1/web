@@ -36,7 +36,7 @@ export default function BookingCard({ booking }: Props) {
         {/* Left */}
         <div className="flex items-start gap-4">
           {/* Mentor avatar placeholder */}
-          <div className="w-12 h-12 rounded-full bg-[#0D1B2A] flex items-center justify-center text-[#FFC857] font-bold text-sm flex-shrink-0">
+          <div className="w-12 h-12 rounded-full bg-[#0D1B2A] flex items-center justify-center text-[#FFC857] font-bold text-sm shrink-0">
             CC
           </div>
           <div>

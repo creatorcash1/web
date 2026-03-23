@@ -23,7 +23,7 @@ export default function UserProfileCard({ output, isSelected, onSelect }: Props)
       className={`w-full text-left p-4 rounded-xl border transition-all duration-200 ${
         isSelected
           ? "bg-[#FFC857]/5 border-[#FFC857]/30 shadow-[0_0_20px_rgba(255,200,87,0.05)]"
-          : "bg-white/[0.02] border-white/5 hover:border-white/15"
+          : "bg-white/2 border-white/5 hover:border-white/15"
       }`}
     >
       <div className="flex items-center gap-3">

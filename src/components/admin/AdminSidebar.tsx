@@ -15,6 +15,7 @@ import {
   Cog6ToothIcon,
   XMarkIcon,
   CpuChipIcon,
+  MegaphoneIcon,
 } from "@heroicons/react/24/outline";
 import { useAdminStore, type AdminSection } from "@/stores/adminStore";
 
@@ -26,6 +27,7 @@ const NAV_ITEMS: { key: AdminSection; label: string; Icon: React.ComponentType<R
   { key: "mentorship", label: "Mentorship", Icon: CalendarDaysIcon },
   { key: "payments", label: "Payments", Icon: CreditCardIcon },
   { key: "analytics", label: "Analytics", Icon: ChartPieIcon },
+  { key: "tiktok-ops", label: "TikTok Ops", Icon: MegaphoneIcon },
   { key: "content", label: "Content", Icon: DocumentTextIcon },
   { key: "ai-brain", label: "AI Brain", Icon: CpuChipIcon },
   { key: "settings", label: "Settings", Icon: Cog6ToothIcon },
@@ -59,7 +61,7 @@ export default function AdminSidebar() {
         {/* Header */}
         <div className="flex items-center justify-between px-5 py-5 border-b border-white/10">
           <div>
-            <h2 className="text-lg font-bold text-white font-[family-name:var(--font-montserrat)]">
+            <h2 className="text-lg font-bold text-white font-(family-name:--font-montserrat)">
               Admin Panel
             </h2>
             <p className="text-xs text-[#FFC857] mt-0.5">CreatorCashCow</p>

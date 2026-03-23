@@ -22,7 +22,7 @@ export default function BrainHealthCard({ health }: Props) {
   return (
     <div className="bg-[#0D1B2A] border border-white/10 rounded-xl p-5">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-sm font-bold text-white font-[family-name:var(--font-montserrat)]">
+        <h3 className="text-sm font-bold text-white font-(family-name:--font-montserrat)">
           🧠 Brain Health
         </h3>
         <span className={`flex items-center gap-1.5 text-xs font-semibold ${st.text}`}>
@@ -59,7 +59,7 @@ export default function BrainHealthCard({ health }: Props) {
 
 function Metric({ label, value }: { label: string; value: string }) {
   return (
-    <div className="bg-white/[0.03] rounded-lg px-3 py-2">
+    <div className="bg-white/3 rounded-lg px-3 py-2">
       <p className="text-[10px] text-white/30 mb-0.5">{label}</p>
       <p className="text-sm font-bold text-white">{value}</p>
     </div>

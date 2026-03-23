@@ -19,12 +19,11 @@ export default function DemoSection() {
           id="demo-heading"
           className="font-headline text-3xl sm:text-4xl lg:text-5xl text-white mb-6"
         >
-          Watch CC Mendel Break Down{" "}
-          <span className="text-[#FFC857]">The Blueprint</span>
+          How to Turn What You Know Into{" "}
+          <span className="text-[#FFC857]">$10k Monthly</span>
         </h2>
         <p className="text-white/60 text-lg mb-10 max-w-2xl mx-auto">
-          In this free preview, CC walks you through the exact framework used
-          to build multiple digital income streams from scratch.
+          Watch this free preview where CC Mendel reveals the exact framework for transforming your knowledge into a consistent $10,000+ monthly income stream.
         </p>
 
         {/* Video placeholder */}

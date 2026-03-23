@@ -56,7 +56,7 @@ export default function AdminKpiCard({ kpi }: { kpi: KpiCardType }) {
       </div>
 
       {/* Value */}
-      <p className="mt-4 text-2xl font-bold text-[#FFC857] font-[family-name:var(--font-montserrat)] group-hover:text-[#1CE7D0] transition-colors">
+      <p className="mt-4 text-2xl font-bold text-[#FFC857] font-(family-name:--font-montserrat) group-hover:text-[#1CE7D0] transition-colors">
         {kpi.value}
       </p>
 

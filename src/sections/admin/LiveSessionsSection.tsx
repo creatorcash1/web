@@ -22,7 +22,7 @@ export default function AdminLiveSessionsSection({
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-xl font-bold text-white font-[family-name:var(--font-montserrat)]">
+        <h2 className="text-xl font-bold text-white font-(family-name:--font-montserrat)">
           Live Sessions
         </h2>
         <p className="text-sm text-white/40 mt-1">

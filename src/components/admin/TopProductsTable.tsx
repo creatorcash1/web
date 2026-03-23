@@ -10,7 +10,7 @@ export default function TopProductsTable({ products }: { products: TopProduct[] 
     <div className="bg-[#0D1B2A] rounded-xl border border-white/5 p-5">
       <h3 className="text-sm font-semibold text-white/70 mb-4">Top Products by Revenue</h3>
       <div className="overflow-x-auto">
-        <table className="w-full min-w-[400px]">
+        <table className="w-full min-w-100">
           <thead>
             <tr className="border-b border-white/10">
               <th className="text-left text-xs font-medium text-white/40 uppercase tracking-wider py-2 px-3">
@@ -32,7 +32,7 @@ export default function TopProductsTable({ products }: { products: TopProduct[] 
           </thead>
           <tbody>
             {products.map((p, i) => (
-              <tr key={p.id} className="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
+              <tr key={p.id} className="border-b border-white/5 hover:bg-white/2 transition-colors">
                 <td className="py-2.5 px-3 text-sm text-white/30 font-mono">{i + 1}</td>
                 <td className="py-2.5 px-3 text-sm text-white/80 font-medium">{p.title}</td>
                 <td className="py-2.5 px-3">

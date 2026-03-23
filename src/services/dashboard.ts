@@ -19,7 +19,7 @@ export async function fetchDashboardData(userId: string): Promise<DashboardData>
 }
 
 // ═══ Legacy Mock Data (for reference during migration) ═══════════════════════
-const MOCK_LEGACY: DashboardData = {
+export const MOCK_LEGACY: DashboardData = {
   user: {
     id: "usr_001",
     full_name: "Jordan Mitchell",

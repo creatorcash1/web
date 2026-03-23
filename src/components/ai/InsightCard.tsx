@@ -29,7 +29,7 @@ export default function InsightCard({ insight }: Props) {
         {insight.metric}
       </p>
       <div className="flex items-end justify-between">
-        <p className="text-xl font-bold text-white font-[family-name:var(--font-montserrat)]">
+        <p className="text-xl font-bold text-white font-(family-name:--font-montserrat)">
           {insight.formattedValue}
         </p>
         <div className="flex items-center gap-1">

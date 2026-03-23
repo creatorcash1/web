@@ -22,7 +22,7 @@ export default function PDFCard({ pdf }: Props) {
                  transition-all duration-300 flex flex-col"
     >
       {/* Cover */}
-      <div className="relative aspect-[3/4] overflow-hidden bg-[#E5E5E5]">
+      <div className="relative aspect-3/4 overflow-hidden bg-[#E5E5E5]">
         <img
           src={pdf.cover_url}
           alt={`${pdf.title} cover`}

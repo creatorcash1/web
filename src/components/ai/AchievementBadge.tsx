@@ -22,7 +22,7 @@ export default function AchievementBadge({ achievement, compact = false }: Props
         className={`flex items-center gap-2 px-3 py-1.5 rounded-full border text-xs font-semibold transition-all ${
           isEarned
             ? "bg-[#FFC857]/10 border-[#FFC857]/30 text-[#FFC857]"
-            : "bg-white/[0.02] border-white/10 text-white/30"
+            : "bg-white/2 border-white/10 text-white/30"
         }`}
         title={achievement.description}
       >
@@ -40,7 +40,7 @@ export default function AchievementBadge({ achievement, compact = false }: Props
       className={`relative flex flex-col items-center p-4 rounded-xl border transition-all group ${
         isEarned
           ? "bg-[#FFC857]/5 border-[#FFC857]/20 hover:border-[#FFC857]/40 shadow-[0_0_16px_rgba(255,200,87,0.06)]"
-          : "bg-white/[0.02] border-white/5 hover:border-white/10"
+          : "bg-white/2 border-white/5 hover:border-white/10"
       }`}
     >
       {/* Progress ring */}

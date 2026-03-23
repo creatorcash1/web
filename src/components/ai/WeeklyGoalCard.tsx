@@ -13,7 +13,7 @@ export default function WeeklyGoalCard({ data }: Props) {
   const progressWidth = Math.min(100, data.percentComplete);
 
   return (
-    <div className="rounded-xl bg-white/[0.03] border border-white/5 p-5 space-y-3">
+    <div className="rounded-xl bg-white/3 border border-white/5 p-5 space-y-3">
       <div className="flex items-center gap-2">
         <span className="text-base">🎯</span>
         <h4 className="text-sm font-bold text-white">Weekly Goal</h4>

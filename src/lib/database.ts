@@ -115,6 +115,7 @@ export async function fetchDashboardData(userId: string): Promise<DashboardData>
       progress: e.progress || 0,
       enrolled_at: e.enrolled_at,
       completed_at: e.completed_at,
+      access_source: e.access_source || "purchase",
     })),
     pdfs: (pdfPurchases || []).map((p: any) => ({
       id: p.pdfs.id,

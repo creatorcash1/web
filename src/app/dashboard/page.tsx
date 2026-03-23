@@ -8,6 +8,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
+import Link from "next/link";
 import { Bars3Icon, BellIcon } from "@heroicons/react/24/outline";
 import { useDashboardStore } from "@/stores/dashboardStore";
 import { useAIBrainStore } from "@/stores/aiBrainStore";
@@ -22,10 +23,11 @@ import PDFsSection from "@/sections/dashboard/PDFsSection";
 import MentorshipSection from "@/sections/dashboard/MentorshipSection";
 import PaymentsSection from "@/sections/dashboard/PaymentsSection";
 import SettingsSection from "@/sections/dashboard/SettingsSection";
+import type { User } from "@/types/dashboard";
 
 export default function DashboardPage() {
   // ── Real Auth guard ────────────────────────────────────────────────────────
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<User | null>(null);
   const [checkingAuth, setCheckingAuth] = useState(true);
 
   useEffect(() => {
@@ -69,6 +71,23 @@ export default function DashboardPage() {
   const toggleNotificationPanel = useAIBrainStore((s) => s.toggleNotificationPanel);
   const setNotificationPanelOpen = useAIBrainStore((s) => s.setNotificationPanelOpen);
 
+  // ── Data fetching via React Query ──────────────────
+  const { data, status } = useQuery({
+    queryKey: ["dashboard-data", user?.id],
+    queryFn: () => fetchDashboardData(user?.id ?? ""),
+    enabled: !!user?.id,
+  });
+
+  // ── AI Brain data for this user ────────────────────
+  const { data: aiData } = useQuery({
+    queryKey: ["ai-brain-user", user?.id],
+    queryFn: () => fetchAIBrainForUser(user?.id ?? ""),
+    staleTime: 5 * 60 * 1000,
+    enabled: !!user?.id,
+  });
+
+  const aiMessages = aiData?.content.messages ?? [];
+
   // Redirect if not authenticated
   if (checkingAuth) {
     return (
@@ -85,39 +104,22 @@ export default function DashboardPage() {
     return (
       <div className="flex items-center justify-center min-h-screen bg-white">
         <div className="text-center">
-          <h1 className="font-[family-name:var(--font-montserrat)] font-extrabold text-2xl text-[#0D1B2A] mb-3">
+          <h1 className="font-(family-name:--font-montserrat) font-extrabold text-2xl text-[#0D1B2A] mb-3">
             Please Log In
           </h1>
           <p className="text-gray-500 text-sm mb-6">You need to be logged in to access your dashboard.</p>
-          <a
+          <Link
             href="/login"
             className="inline-flex items-center justify-center bg-[#FFC857] text-[#0D1B2A] text-sm
                        font-bold uppercase tracking-wider rounded-full px-6 py-3
                        hover:bg-[#f5b732] transition-all"
           >
             Go to Login
-          </a>
+          </Link>
         </div>
       </div>
     );
   }
-
-  // ── Data fetching via React Query ──────────────────
-  const { data, status } = useQuery({
-    queryKey: ["dashboard-data", user.id],
-    queryFn: () => fetchDashboardData(user.id),
-    enabled: !!user?.id,
-  });
-
-  // ── AI Brain data for this user ────────────────────
-  const { data: aiData } = useQuery({
-    queryKey: ["ai-brain-user", user.id],
-    queryFn: () => fetchAIBrainForUser(user.id),
-    staleTime: 5 * 60 * 1000,
-    enabled: !!user?.id,
-  });
-
-  const aiMessages = aiData?.content.messages ?? [];
 
   // ── Loading state ──────────────────────────────────
   if (status === "pending") {
@@ -204,7 +206,7 @@ export default function DashboardPage() {
             <Bars3Icon className="w-5 h-5" />
           </button>
 
-          <h1 className="font-[family-name:var(--font-montserrat)] font-extrabold text-lg text-[#0D1B2A] tracking-tight">
+          <h1 className="font-(family-name:--font-montserrat) font-extrabold text-lg text-[#0D1B2A] tracking-tight">
             {titles[activeSection] ?? "Dashboard"}
           </h1>
 

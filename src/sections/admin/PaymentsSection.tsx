@@ -109,7 +109,7 @@ export default function AdminPaymentsSection({ payments }: { payments: AdminPaym
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div>
-          <h2 className="text-xl font-bold text-white font-[family-name:var(--font-montserrat)]">
+          <h2 className="text-xl font-bold text-white font-(family-name:--font-montserrat)">
             Payments
           </h2>
           <p className="text-sm text-white/40">{payments.length} total transactions</p>

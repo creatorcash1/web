@@ -29,11 +29,6 @@ export default function PDFDetailPage() {
     staleTime: 5 * 60 * 1000,
   });
 
-  if (isLoading) return <main className="p-8 text-sm text-gray-500">Loading PDF…</main>;
-  if (!pdf) return <main className="p-8 text-sm text-red-500">PDF not found.</main>;
-
-  const hasPurchased = dashboard?.pdfs.some((p) => p.id === pdfId) ?? false;
-
   useEffect(() => {
     if (!trackingId) return;
     trackEvent({
@@ -45,6 +40,11 @@ export default function PDFDetailPage() {
       metadata: { trackingId },
     });
   }, [trackingId, trackingUser, pdfId]);
+
+  if (isLoading) return <main className="p-8 text-sm text-gray-500">Loading PDF…</main>;
+  if (!pdf) return <main className="p-8 text-sm text-red-500">PDF not found.</main>;
+
+  const hasPurchased = dashboard?.pdfs.some((p) => p.id === pdfId) ?? false;
 
   return (
     <main className="min-h-screen bg-[#F7F8FA] px-4 sm:px-6 lg:px-8 py-10">

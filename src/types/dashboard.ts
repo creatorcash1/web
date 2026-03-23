@@ -27,6 +27,7 @@ export interface EnrolledCourse {
   progress: number; // 0-100
   enrolled_at: string;
   completed_at: string | null;
+  access_source?: "purchase" | "promo" | "admin_grant";
 }
 
 /** Upcoming or past live session */

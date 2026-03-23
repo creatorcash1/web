@@ -97,7 +97,7 @@ export default function AIBrainSection() {
       <div className="flex items-center gap-3">
         <span className="text-2xl">🧠</span>
         <div>
-          <h2 className="text-xl font-bold text-white font-[family-name:var(--font-montserrat)]">
+          <h2 className="text-xl font-bold text-white font-(family-name:--font-montserrat)">
             AI Brain
           </h2>
           <p className="text-xs text-white/40">
@@ -150,7 +150,7 @@ export default function AIBrainSection() {
           <h3 className="text-xs uppercase tracking-wider text-white/30 font-semibold mb-2">
             User Profiles ({userProfiles.length})
           </h3>
-          <div className="space-y-2 max-h-[600px] overflow-y-auto pr-1 custom-scrollbar">
+          <div className="space-y-2 max-h-150 overflow-y-auto pr-1 custom-scrollbar">
             {userProfiles.map((profile) => (
               <UserProfileCard
                 key={profile.userId}
@@ -176,7 +176,7 @@ export default function AIBrainSection() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <BrainHealthCard health={brainHealth} />
                 <div className="bg-[#0D1B2A] border border-white/10 rounded-xl p-5">
-                  <h3 className="text-sm font-bold text-white font-[family-name:var(--font-montserrat)] mb-3">
+                  <h3 className="text-sm font-bold text-white font-(family-name:--font-montserrat) mb-3">
                     Quick Stats
                   </h3>
                   <div className="grid grid-cols-2 gap-3">
@@ -273,7 +273,7 @@ function UserDetailPanel({
       </div>
 
       {/* Content */}
-      <div className="min-h-[400px]">
+      <div className="min-h-100">
         {activeTab === "overview" && <OverviewTab profile={profile} />}
         {activeTab === "behavior" && <BehaviorTab profile={profile} />}
         {activeTab === "churn" && <ChurnTab profile={profile} />}
@@ -307,7 +307,7 @@ function OverviewTab({ profile }: { profile: AIBrainOutput }) {
           <RiskBadge level={profile.churn.riskLevel} score={profile.churn.riskScore} />
         </div>
         {profile.churn.retentionAction && (
-          <div className="bg-white/[0.03] rounded-lg p-3 mt-2">
+          <div className="bg-white/3 rounded-lg p-3 mt-2">
             <p className="text-[10px] uppercase tracking-wider text-white/30 mb-1">Retention Action</p>
             <p className="text-xs text-white/70">{profile.churn.retentionAction.description}</p>
           </div>
@@ -357,7 +357,7 @@ function BehaviorTab({ profile }: { profile: AIBrainOutput }) {
         {behavior.signals.map((sig, i) => (
           <div
             key={i}
-            className={`flex items-start gap-2 bg-white/[0.02] border rounded-lg p-3 ${
+            className={`flex items-start gap-2 bg-white/2 border rounded-lg p-3 ${
               sig.severity === "positive"
                 ? "border-emerald-500/10"
                 : sig.severity === "warning"
@@ -394,7 +394,7 @@ function ChurnTab({ profile }: { profile: AIBrainOutput }) {
       </h4>
       <div className="space-y-2">
         {churn.riskFactors.map((f, i) => (
-          <div key={i} className="bg-white/[0.02] border border-white/5 rounded-lg p-3">
+          <div key={i} className="bg-white/2 border border-white/5 rounded-lg p-3">
             <div className="flex items-center justify-between mb-1">
               <p className="text-xs font-bold text-white">{f.factor}</p>
               <span className="text-[10px] text-red-400 font-semibold">
@@ -448,7 +448,7 @@ function UpsellTab({ profile }: { profile: AIBrainOutput }) {
           ))}
         </div>
       ) : (
-        <div className="text-center py-12 bg-white/[0.02] rounded-xl border border-white/5">
+        <div className="text-center py-12 bg-white/2 rounded-xl border border-white/5">
           <p className="text-white/30 text-sm">No upsell recommendations for this user.</p>
           <p className="text-white/15 text-xs mt-1">
             Engagement score must be above 70 to trigger upsell suggestions.
@@ -483,7 +483,7 @@ function RevenueTab({ profile }: { profile: AIBrainOutput }) {
           ))}
         </div>
       ) : (
-        <div className="text-center py-12 bg-white/[0.02] rounded-xl border border-white/5">
+        <div className="text-center py-12 bg-white/2 rounded-xl border border-white/5">
           <p className="text-white/30 text-sm">No bundle suggestions for this user.</p>
         </div>
       )}
@@ -534,7 +534,7 @@ function CampaignsTabContent({ profile }: { profile: AIBrainOutput }) {
             {htmlEmails.map((email) => (
               <div
                 key={email.id}
-                className="bg-white/[0.02] border border-white/5 rounded-xl p-4 space-y-2"
+                className="bg-white/2 border border-white/5 rounded-xl p-4 space-y-2"
               >
                 <div className="flex items-center justify-between">
                   <p className="text-sm font-bold text-white">{email.subject}</p>
@@ -555,7 +555,7 @@ function CampaignsTabContent({ profile }: { profile: AIBrainOutput }) {
                   </p>
                 )}
                 {/* Plain text preview */}
-                <div className="bg-white/[0.02] rounded-lg p-3 mt-2">
+                <div className="bg-white/2 rounded-lg p-3 mt-2">
                   <p className="text-[10px] text-white/20 uppercase tracking-wider mb-1">Preview</p>
                   <p className="text-xs text-white/50 whitespace-pre-line leading-relaxed">{email.plainText}</p>
                 </div>
@@ -623,7 +623,7 @@ function ContentTab({ profile }: { profile: AIBrainOutput }) {
           <MessagePreview key={msg.id} message={msg} />
         ))
       ) : (
-        <div className="text-center py-12 bg-white/[0.02] rounded-xl border border-white/5">
+        <div className="text-center py-12 bg-white/2 rounded-xl border border-white/5">
           <p className="text-white/30 text-sm">No messages generated for this user.</p>
         </div>
       )}
@@ -655,7 +655,7 @@ function InsightsTab({ profile }: { profile: AIBrainOutput }) {
 
 function Stat({ label, value, color }: { label: string; value: string; color: string }) {
   return (
-    <div className="bg-white/[0.03] rounded-lg px-3 py-2">
+    <div className="bg-white/3 rounded-lg px-3 py-2">
       <p className="text-[10px] text-white/30 mb-0.5">{label}</p>
       <p className={`text-lg font-bold ${color}`}>{value}</p>
     </div>
@@ -664,7 +664,7 @@ function Stat({ label, value, color }: { label: string; value: string; color: st
 
 function MiniStat({ label, value }: { label: string; value: string }) {
   return (
-    <div className="bg-white/[0.03] rounded-lg px-3 py-2.5 flex-1">
+    <div className="bg-white/3 rounded-lg px-3 py-2.5 flex-1">
       <p className="text-[10px] text-white/30 mb-0.5">{label}</p>
       <p className="text-sm font-bold text-white truncate">{value}</p>
     </div>

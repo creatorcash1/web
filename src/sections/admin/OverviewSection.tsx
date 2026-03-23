@@ -11,8 +11,8 @@ export default function AdminOverviewSection({ data }: { data: AdminDashboardDat
   return (
     <div className="space-y-6">
       {/* Welcome banner */}
-      <div className="bg-gradient-to-r from-[#FFC857]/10 via-[#1CE7D0]/5 to-transparent rounded-xl border border-[#FFC857]/10 p-6">
-        <h1 className="text-2xl font-bold text-white font-[family-name:var(--font-montserrat)]">
+      <div className="bg-linear-to-r from-[#FFC857]/10 via-[#1CE7D0]/5 to-transparent rounded-xl border border-[#FFC857]/10 p-6">
+        <h1 className="text-2xl font-bold text-white font-(family-name:--font-montserrat)">
           Welcome back, CC
         </h1>
         <p className="text-white/50 mt-1 text-sm">

@@ -11,8 +11,6 @@ import Button from "./Button";
 
 const navLinks = [
   { label: "Home",       href: "/" },
-  { label: "Courses",    href: "/courses" },
-  { label: "Mentorship", href: "/mentorship/mentorship-2hr" },
   { label: "Dashboard",  href: "/dashboard" },
   { label: "FAQ",        href: "/#faq" },
 ];
@@ -67,13 +65,13 @@ export default function Navbar() {
           {/* ── CTA (desktop) ─────────────────────────── */}
           <div className="hidden md:flex items-center gap-3">
             <Link
-              href="/register"
+              href="/login"
               className="text-sm text-white/70 hover:text-white transition-colors"
             >
               Log In
             </Link>
             <Button variant="primary" size="sm" href="/register?redirect=checkout">
-              Get Full Access
+              Start Now — $57.99
             </Button>
           </div>
 

@@ -70,7 +70,7 @@ export default function Sidebar() {
             <span className="w-8 h-8 rounded-full bg-[#FFC857] flex items-center justify-center">
               <span className="text-[#0D1B2A] font-black text-xs">CC</span>
             </span>
-            <span className="text-white font-[family-name:var(--font-montserrat)] font-extrabold text-sm leading-tight">
+            <span className="text-white font-(family-name:--font-montserrat) font-extrabold text-sm leading-tight">
               Creator<span className="text-[#FFC857]">Cash</span>Cow
             </span>
           </Link>
@@ -103,7 +103,7 @@ export default function Sidebar() {
                 aria-current={active ? "page" : undefined}
               >
                 <Icon
-                  className={`w-5 h-5 flex-shrink-0 transition-colors duration-200
+                  className={`w-5 h-5 shrink-0 transition-colors duration-200
                     ${active ? "text-[#FFC857]" : "text-white/40 group-hover:text-[#1CE7D0]"}`}
                   aria-hidden="true"
                 />

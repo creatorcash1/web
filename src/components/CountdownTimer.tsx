@@ -33,19 +33,18 @@ function pad(n: number) {
 }
 
 export default function CountdownTimer({ targetDate }: CountdownTimerProps) {
-  const [time, setTime] = useState<TimeLeft | null>(null);
+  const [time, setTime] = useState<TimeLeft>(() => calcTimeLeft(targetDate));
 
   useEffect(() => {
-    setTime(calcTimeLeft(targetDate));
     const id = setInterval(() => setTime(calcTimeLeft(targetDate)), 1000);
     return () => clearInterval(id);
   }, [targetDate]);
 
   const cells = [
-    { label: "Days",    value: time ? pad(time.days) : "--" },
-    { label: "Hours",   value: time ? pad(time.hours) : "--" },
-    { label: "Minutes", value: time ? pad(time.minutes) : "--" },
-    { label: "Seconds", value: time ? pad(time.seconds) : "--" },
+    { label: "Days",    value: pad(time.days) },
+    { label: "Hours",   value: pad(time.hours) },
+    { label: "Minutes", value: pad(time.minutes) },
+    { label: "Seconds", value: pad(time.seconds) },
   ];
 
   return (

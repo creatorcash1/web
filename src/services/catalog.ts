@@ -26,94 +26,23 @@ export interface CatalogMentorship {
 export const COURSE_CATALOG: CatalogCourse[] = [
   {
     courseId: "crs_001",
-    title: "UGC Mastery",
-    description: "Learn to create content that sells and land brand deals.",
-    price: 399,
+    title: "How to Turn What You Know Into $10k Monthly",
+    description: "Master the complete system for transforming your knowledge and skills into consistent $10,000+ monthly income. Includes 2 step-by-step video trainings and 1 comprehensive implementation ebook.",
+    price: 57.99,
     lessons: [
-      { id: "l1", title: "UGC Foundations", durationMinutes: 24 },
-      { id: "l2", title: "Pitching Brands", durationMinutes: 31 },
-      { id: "l3", title: "Portfolio Framework", durationMinutes: 27 },
+      { id: "l1", title: "Foundation: Building Your $10k System", durationMinutes: 45 },
+      { id: "l2", title: "Execution: Scaling to Consistent Revenue", durationMinutes: 52 },
+      { id: "l3", title: "Implementation Ebook: Your Complete Action Plan", durationMinutes: 0 },
     ],
-  },
-  {
-    courseId: "crs_002",
-    title: "Dropshipping Profits",
-    description: "Launch profitable stores and scale winning products.",
-    price: 299,
-    lessons: [
-      { id: "l1", title: "Winning Product Research", durationMinutes: 34 },
-      { id: "l2", title: "Store Setup", durationMinutes: 29 },
-      { id: "l3", title: "Offer Testing", durationMinutes: 26 },
-    ],
-  },
-  {
-    courseId: "crs_003",
-    title: "TikTok Shop Success",
-    description: "Build affiliate-driven sales through TikTok Shop.",
-    price: 349,
-    lessons: [
-      { id: "l1", title: "TikTok Commerce Basics", durationMinutes: 21 },
-      { id: "l2", title: "Content Hooks", durationMinutes: 25 },
-      { id: "l3", title: "Scaling Top Products", durationMinutes: 32 },
-    ],
-  },
-  {
-    courseId: "crs_004",
-    title: "Build Your Own Platform",
-    description: "Create an owned platform and multi-stream revenue engine.",
-    price: 449,
-    lessons: [
-      { id: "l1", title: "Platform Positioning", durationMinutes: 28 },
-      { id: "l2", title: "Offer Ladder", durationMinutes: 33 },
-      { id: "l3", title: "Audience Monetization", durationMinutes: 35 },
-    ],
-  },
-  {
-    courseId: "crs_005",
-    title: "PDF Creation & Digital Products",
-    description: "Design and sell digital products for recurring income.",
-    price: 199,
-    lessons: [
-      { id: "l1", title: "Idea to Offer", durationMinutes: 19 },
-      { id: "l2", title: "Design Workflow", durationMinutes: 22 },
-      { id: "l3", title: "Sales Page Conversion", durationMinutes: 25 },
-    ],
+    thumbnailUrl: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=800",
   },
 ];
 
-export const PDF_CATALOG: CatalogPDF[] = [
-  {
-    pdfId: "pdf_001",
-    title: "The Creator Revenue Blueprint",
-    description: "50-page guide to building 5 income streams.",
-    price: 29,
-    pages: 50,
-  },
-  {
-    pdfId: "pdf_002",
-    title: "UGC Pitch Template Pack",
-    description: "Ready-to-send pitch templates for brand deals.",
-    price: 19,
-    pages: 32,
-  },
-  {
-    pdfId: "pdf_003",
-    title: "Dropship Product Cheat Sheet",
-    description: "Top product ideas with supplier mapping.",
-    price: 14,
-    pages: 28,
-  },
-];
+// PDFs will be added later
+export const PDF_CATALOG: CatalogPDF[] = [];
 
-export const MENTORSHIP_CATALOG: CatalogMentorship[] = [
-  {
-    mentorshipId: "mentorship-2hr",
-    title: "1:1 Mentorship with CC Mendel (2hr)",
-    description: "Personalized strategy session to accelerate your revenue.",
-    price: 950,
-    durationMinutes: 120,
-  },
-];
+// Mentorship will be added later
+export const MENTORSHIP_CATALOG: CatalogMentorship[] = [];
 
 export async function fetchCourseById(courseId: string): Promise<CatalogCourse | null> {
   const response = await fetch(`/api/courses/${courseId}`);

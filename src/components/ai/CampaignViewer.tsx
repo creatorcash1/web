@@ -26,7 +26,7 @@ function triggerLabel(trigger: EmailCampaign["trigger"]): string {
 function statusColor(status: EmailCampaign["status"]): string {
   if (status === "active") return "text-[#1CE7D0] bg-[#1CE7D0]/10 border-[#1CE7D0]/20";
   if (status === "paused") return "text-[#FFC857] bg-[#FFC857]/10 border-[#FFC857]/20";
-  return "text-white/40 bg-white/[0.03] border-white/10";
+  return "text-white/40 bg-white/3 border-white/10";
 }
 
 export default function CampaignViewer({ campaigns }: Props) {
@@ -45,16 +45,16 @@ export default function CampaignViewer({ campaigns }: Props) {
       {campaigns.map((campaign) => (
         <div
           key={campaign.campaignId}
-          className="bg-white/[0.02] border border-white/5 rounded-xl overflow-hidden"
+          className="bg-white/2 border border-white/5 rounded-xl overflow-hidden"
         >
           {/* Header */}
           <button
             onClick={() => setExpanded(expanded === campaign.campaignId ? null : campaign.campaignId)}
-            className="w-full text-left p-4 flex items-center gap-3 hover:bg-white/[0.02] transition-colors"
+            className="w-full text-left p-4 flex items-center gap-3 hover:bg-white/2 transition-colors"
           >
             {/* Status dot */}
             <span
-              className={`w-2 h-2 rounded-full flex-shrink-0 ${
+              className={`w-2 h-2 rounded-full shrink-0 ${
                 campaign.status === "active"
                   ? "bg-[#1CE7D0]"
                   : campaign.status === "paused"
@@ -74,7 +74,7 @@ export default function CampaignViewer({ campaigns }: Props) {
               {campaign.status}
             </span>
 
-            <div className="text-right flex-shrink-0">
+            <div className="text-right shrink-0">
               <p className="text-xs text-white/60">{campaign.enrolledUsers} enrolled</p>
               {campaign.completionRate > 0 && (
                 <p className="text-[10px] text-[#1CE7D0]">{campaign.completionRate}% completed</p>
@@ -98,16 +98,16 @@ export default function CampaignViewer({ campaigns }: Props) {
               {campaign.steps.map((step) => (
                 <div
                   key={step.stepNumber}
-                  className="flex items-center gap-3 py-2 px-3 rounded-lg bg-white/[0.02]"
+                  className="flex items-center gap-3 py-2 px-3 rounded-lg bg-white/2"
                 >
-                  <span className="w-6 h-6 rounded-full bg-[#FFC857]/10 text-[#FFC857] text-xs font-bold flex items-center justify-center flex-shrink-0">
+                  <span className="w-6 h-6 rounded-full bg-[#FFC857]/10 text-[#FFC857] text-xs font-bold flex items-center justify-center shrink-0">
                     {step.stepNumber}
                   </span>
                   <div className="flex-1 min-w-0">
                     <p className="text-xs font-semibold text-white truncate">{step.subject}</p>
                     <p className="text-[10px] text-white/30 mt-0.5">{step.summary}</p>
                   </div>
-                  <div className="text-right flex-shrink-0 space-y-0.5">
+                  <div className="text-right shrink-0 space-y-0.5">
                     <p className="text-[10px] text-white/40">
                       Day +{step.delayDays}
                     </p>

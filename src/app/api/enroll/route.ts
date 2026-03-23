@@ -1,21 +1,58 @@
 import { NextResponse } from "next/server";
+import { getServerUser } from "@/lib/auth";
+import { createServerSupabaseClient } from "@/lib/supabase/server";
 
 interface Body {
-  userId?: string;
   productId?: string;
+  accessSource?: "purchase" | "promo" | "admin_grant";
 }
 
 export async function POST(request: Request) {
-  const body = (await request.json()) as Body;
+  try {
+    const user = await getServerUser();
+    if (!user) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
 
-  if (!body.userId || !body.productId) {
-    return NextResponse.json({ error: "userId and productId are required" }, { status: 400 });
+    const body = (await request.json()) as Body;
+    const productId = body.productId;
+    const accessSource = body.accessSource ?? "purchase";
+
+    if (!productId) {
+      return NextResponse.json({ error: "productId is required" }, { status: 400 });
+    }
+
+    const supabase = await createServerSupabaseClient();
+
+    // Ensure course exists
+    const { data: course } = await supabase
+      .from("courses")
+      .select("id")
+      .eq("id", productId)
+      .single();
+
+    if (!course) {
+      return NextResponse.json({ error: "Course not found" }, { status: 404 });
+    }
+
+    const { error } = await supabase
+      .from("user_enrollments")
+      .upsert({ user_id: user.id, course_id: productId, access_source: accessSource }, { onConflict: "user_id,course_id" });
+
+    if (error) {
+      console.error("Enroll error", error);
+      return NextResponse.json({ error: "Failed to enroll user" }, { status: 500 });
+    }
+
+    return NextResponse.json({
+      success: true,
+      userId: user.id,
+      productId,
+      enrolledAt: new Date().toISOString(),
+      accessSource,
+    });
+  } catch (error: any) {
+    console.error("Enroll API error", error);
+    return NextResponse.json({ error: error.message || "Failed to enroll" }, { status: 500 });
   }
-
-  return NextResponse.json({
-    success: true,
-    userId: body.userId,
-    productId: body.productId,
-    enrolledAt: new Date().toISOString(),
-  });
 }

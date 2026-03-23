@@ -14,29 +14,34 @@ interface FAQItem {
 
 const faqs: FAQItem[] = [
   {
-    question: "What's included in the full access bundle?",
+    question: "What exactly do I get with this course?",
     answer:
-      "You get lifetime access to all 5 premium courses (UGC, Dropshipping, TikTok Shop, Digital Platform Building, and PDF Creation), all downloadable resources & templates, progress tracking, bonus materials — plus a FREE 2-hour 1:1 mentorship session with CC Mendel when you're among the first 5 buyers.",
+      "You get lifetime access to 2 comprehensive video trainings (97 minutes total) plus a complete implementation ebook with templates, worksheets, and checklists. Everything you need to turn your knowledge into $10k+ monthly income.",
   },
   {
     question: "Do I need any experience to get started?",
     answer:
-      "Absolutely not. The courses are designed for complete beginners. Every module starts from the fundamentals and builds up with practical, step-by-step video lessons. As long as you have Wi-Fi and motivation, you're ready.",
+      "No experience required! This course is designed for anyone with knowledge or skills they want to monetize — whether you're just starting out or already have an audience. If you know something valuable, this system will help you package and sell it.",
   },
   {
-    question: "How does the 1:1 mentorship session work?",
+    question: "How long do I have access to the course?",
     answer:
-      "After purchasing the first-5-buyers bundle, you'll receive a calendar link to book your 2-hour session directly with CC Mendel. Sessions are conducted via Zoom. You'll leave with a working digital asset and a personalised action plan.",
+      "Lifetime access! Once you purchase, you can watch the videos and download the materials whenever you want, as many times as you need. Learn at your own pace.",
   },
   {
     question: "What payment methods are accepted?",
     answer:
-      "We accept all major credit/debit cards via Stripe and PayPal. Transactions are fully encrypted and secure. After payment you receive instant dashboard access.",
+      "We accept all major credit/debit cards via Stripe. Transactions are fully encrypted and secure. After payment you receive instant access to your course dashboard.",
   },
   {
     question: "Is there a refund policy?",
     answer:
-      "Yes. We offer a 7-day satisfaction guarantee. If you go through the first module and honestly feel it's not for you, reach out to our support team and we'll process a full refund — no questions asked.",
+      "Yes! We offer a 30-day money-back guarantee. If you watch the training and honestly feel it's not for you, reach out to hello@creatorcashcow.com and we'll process a full refund — no questions asked.",
+  },
+  {
+    question: "How long does it take to see results?",
+    answer:
+      "That depends on your implementation speed. Some students see their first sales within weeks, while others take a few months to build their system. The course gives you the complete roadmap — your results depend on how quickly you take action.",
   },
 ];
 
@@ -70,7 +75,7 @@ export default function Accordion() {
             >
               <span className="font-bold text-base pr-4">{item.question}</span>
               <ChevronDownIcon
-                className={`w-5 h-5 flex-shrink-0 transition-transform duration-300 ${
+                className={`w-5 h-5 shrink-0 transition-transform duration-300 ${
                   isOpen ? "rotate-180 text-[#1CE7D0]" : "text-gray-400"
                 }`}
               />

@@ -13,7 +13,7 @@ export default function BundleCard({ bundle }: Props) {
   const likelihood = Math.round(bundle.conversionLikelihood * 100);
 
   return (
-    <div className="bg-gradient-to-br from-[#0D1B2A] to-[#132438] border border-white/10 rounded-xl p-5 hover:border-[#1CE7D0]/20 transition-colors">
+    <div className="bg-linear-to-br from-[#0D1B2A] to-[#132438] border border-white/10 rounded-xl p-5 hover:border-[#1CE7D0]/20 transition-colors">
       {/* Header */}
       <div className="flex items-start justify-between mb-3">
         <p className="text-xs font-bold text-white/40 uppercase tracking-wider">Bundle</p>
@@ -24,7 +24,7 @@ export default function BundleCard({ bundle }: Props) {
 
       {/* Pricing */}
       <div className="flex items-baseline gap-2 mb-2">
-        <span className="text-2xl font-bold text-white font-[family-name:var(--font-montserrat)]">
+        <span className="text-2xl font-bold text-white font-(family-name:--font-montserrat)">
           ${bundle.bundlePrice}
         </span>
         <span className="text-sm text-white/30 line-through">${bundle.originalTotal}</span>

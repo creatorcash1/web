@@ -31,27 +31,19 @@ function calc(target: string): TimeLeft {
 const pad = (n: number) => String(n).padStart(2, "0");
 
 export default function DashboardCountdown({ targetDate, compact }: Props) {
-  const [time, setTime] = useState<TimeLeft | null>(null);
+  const [time, setTime] = useState<TimeLeft>(() => calc(targetDate));
 
   useEffect(() => {
-    setTime(calc(targetDate));
     const id = setInterval(() => setTime(calc(targetDate)), 1000);
     return () => clearInterval(id);
   }, [targetDate]);
 
-  const cells = time
-    ? [
-        { label: "D", value: pad(time.days) },
-        { label: "H", value: pad(time.hours) },
-        { label: "M", value: pad(time.minutes) },
-        { label: "S", value: pad(time.seconds) },
-      ]
-    : [
-        { label: "D", value: "--" },
-        { label: "H", value: "--" },
-        { label: "M", value: "--" },
-        { label: "S", value: "--" },
-      ];
+  const cells = [
+    { label: "D", value: pad(time.days) },
+    { label: "H", value: pad(time.hours) },
+    { label: "M", value: pad(time.minutes) },
+    { label: "S", value: pad(time.seconds) },
+  ];
 
   if (compact) {
     return (
@@ -65,7 +57,7 @@ export default function DashboardCountdown({ targetDate, compact }: Props) {
     <div className="flex items-center gap-2" aria-live="polite" aria-label="Countdown timer">
       {cells.map((c, i) => (
         <div key={c.label} className="flex items-center gap-2">
-          <div className="bg-[#0D1B2A] rounded-lg px-3 py-2 text-center min-w-[46px]">
+          <div className="bg-[#0D1B2A] rounded-lg px-3 py-2 text-center min-w-11.5">
             <div className="text-lg font-black text-[#FFC857] tabular-nums leading-none">
               {c.value}
             </div>

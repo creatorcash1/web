@@ -26,7 +26,7 @@ export default function LiveSessionCountdown({ data, onAction }: Props) {
   const hours = hoursLeft % 24;
 
   return (
-    <div className="rounded-xl bg-gradient-to-br from-[#0D1B2A] to-[#1CE7D0]/5 border border-[#1CE7D0]/10 p-5 space-y-3">
+    <div className="rounded-xl bg-linear-to-br from-[#0D1B2A] to-[#1CE7D0]/5 border border-[#1CE7D0]/10 p-5 space-y-3">
       <div className="flex items-center gap-2">
         <span className="text-base">🎬</span>
         <h4 className="text-sm font-bold text-white">Next Live Session</h4>

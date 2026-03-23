@@ -44,7 +44,7 @@ export default function AdminHeader() {
 
           {/* Admin avatar */}
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#FFC857] to-[#1CE7D0] flex items-center justify-center text-[#0D1B2A] text-xs font-bold">
+            <div className="w-8 h-8 rounded-full bg-linear-to-br from-[#FFC857] to-[#1CE7D0] flex items-center justify-center text-[#0D1B2A] text-xs font-bold">
               CC
             </div>
             <span className="hidden sm:block text-sm text-white/70 font-medium">CC Mendel</span>

@@ -35,7 +35,7 @@ export default function AIAlertBanner({ alert, onDismiss, onAction }: Props) {
 
   return (
     <div className={`rounded-xl border p-4 ${s.bg} flex items-start gap-3`}>
-      <span className={`mt-0.5 w-2 h-2 rounded-full flex-shrink-0 ${s.dot}`} />
+      <span className={`mt-0.5 w-2 h-2 rounded-full shrink-0 ${s.dot}`} />
 
       <div className="flex-1 min-w-0">
         <h4 className={`text-sm font-bold ${s.icon}`}>{alert.title}</h4>
@@ -54,7 +54,7 @@ export default function AIAlertBanner({ alert, onDismiss, onAction }: Props) {
 
       <button
         onClick={onDismiss}
-        className="text-white/20 hover:text-white/50 transition-colors flex-shrink-0"
+        className="text-white/20 hover:text-white/50 transition-colors shrink-0"
         aria-label="Dismiss alert"
       >
         <XMarkIcon className="w-4 h-4" />

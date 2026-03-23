@@ -5,9 +5,8 @@
 
 const footerLinks = [
   { label: "Home",       href: "/" },
-  { label: "Courses",    href: "/courses" },
-  { label: "Mentorship", href: "/mentorship/mentorship-2hr" },
   { label: "Dashboard",  href: "/dashboard" },
+  { label: "FAQ",        href: "/#faq" },
   { label: "Contact",    href: "/contact" },
 ];
 

@@ -86,12 +86,12 @@ export default function RegisterPage() {
 
   if (success) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-[#0D1B2A] to-[#1a2f42] flex items-center justify-center px-4">
+      <div className="min-h-screen bg-linear-to-br from-[#0D1B2A] to-[#1a2f42] flex items-center justify-center px-4">
         <div className="max-w-md w-full bg-white rounded-2xl shadow-2xl p-8 text-center">
           <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
             <span className="text-3xl">✓</span>
           </div>
-          <h1 className="text-2xl font-bold text-[#0D1B2A] mb-2 font-[family-name:var(--font-montserrat)]">
+          <h1 className="text-2xl font-bold text-[#0D1B2A] mb-2 font-(family-name:--font-montserrat)">
             Account Created!
           </h1>
           <p className="text-gray-600 mb-4">
@@ -104,11 +104,11 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0D1B2A] to-[#1a2f42] flex items-center justify-center px-4 py-12">
+    <div className="min-h-screen bg-linear-to-br from-[#0D1B2A] to-[#1a2f42] flex items-center justify-center px-4 py-12">
       <div className="max-w-md w-full bg-white rounded-2xl shadow-2xl p-8">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-extrabold text-[#0D1B2A] mb-2 font-[family-name:var(--font-montserrat)]">
+          <h1 className="text-3xl font-extrabold text-[#0D1B2A] mb-2 font-(family-name:--font-montserrat)">
             Join CreatorCashCow
           </h1>
           <p className="text-gray-600 text-sm">

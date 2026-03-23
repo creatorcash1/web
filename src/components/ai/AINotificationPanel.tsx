@@ -66,7 +66,7 @@ export default function AINotificationPanel({ messages, isOpen, onClose }: Props
         <div className="flex items-center justify-between px-5 py-4 border-b border-white/10">
           <div className="flex items-center gap-2">
             <span className="text-lg">🔔</span>
-            <h3 className="text-sm font-bold text-white font-[family-name:var(--font-montserrat)]">
+            <h3 className="text-sm font-bold text-white font-(family-name:--font-montserrat)">
               AI Notifications
             </h3>
             {notifications.length > 0 && (

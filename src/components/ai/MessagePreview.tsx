@@ -29,7 +29,7 @@ const TONE_COLORS: Record<string, string> = {
 export default function MessagePreview({ message, compact = false, onAction }: Props) {
   return (
     <div
-      className={`bg-white/[0.03] border rounded-xl ${TONE_COLORS[message.tone] || "border-white/10"} ${
+      className={`bg-white/3 border rounded-xl ${TONE_COLORS[message.tone] || "border-white/10"} ${
         compact ? "p-3" : "p-4"
       }`}
     >

@@ -36,7 +36,7 @@ export default function AdminTable<T>({
 
   return (
     <div className="overflow-x-auto">
-      <table className="w-full min-w-[640px]">
+      <table className="w-full min-w-160">
         <thead>
           <tr className="border-b border-white/10">
             {columns.map((col) => (
@@ -53,7 +53,7 @@ export default function AdminTable<T>({
           {data.map((item) => (
             <tr
               key={keyExtractor(item)}
-              className="border-b border-white/5 hover:bg-white/[0.02] transition-colors"
+              className="border-b border-white/5 hover:bg-white/2 transition-colors"
             >
               {columns.map((col) => (
                 <td key={col.key} className={`py-3 px-4 text-sm text-white/70 ${col.width ?? ""}`}>
