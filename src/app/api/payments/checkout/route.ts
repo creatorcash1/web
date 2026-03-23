@@ -11,9 +11,15 @@ import {
   fetchMentorshipProduct,
 } from "@/lib/database";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: "2026-01-28.clover",
-});
+function getStripeClient() {
+  const secretKey = process.env.STRIPE_SECRET_KEY;
+  if (!secretKey) {
+    return null;
+  }
+  return new Stripe(secretKey, {
+    apiVersion: "2026-01-28.clover",
+  });
+}
 
 interface Body {
   productId: string;
@@ -22,6 +28,14 @@ interface Body {
 
 export async function POST(request: Request) {
   try {
+    const stripe = getStripeClient();
+    if (!stripe) {
+      return NextResponse.json(
+        { error: "Stripe is not configured. Missing STRIPE_SECRET_KEY." },
+        { status: 500 }
+      );
+    }
+
     // Verify authentication
     const user = await getServerUser();
     if (!user) {

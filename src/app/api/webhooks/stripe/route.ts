@@ -11,14 +11,34 @@ import {
   recordPayment,
 } from "@/lib/database";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: "2026-01-28.clover",
-});
+function getStripeDeps() {
+  const secretKey = process.env.STRIPE_SECRET_KEY;
+  const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
-const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!;
+  if (!secretKey || !webhookSecret) {
+    return null;
+  }
+
+  return {
+    stripe: new Stripe(secretKey, {
+      apiVersion: "2026-01-28.clover",
+    }),
+    webhookSecret,
+  };
+}
 
 export async function POST(request: Request) {
   try {
+    const deps = getStripeDeps();
+    if (!deps) {
+      return NextResponse.json(
+        { error: "Stripe webhook is not configured. Missing STRIPE_SECRET_KEY or STRIPE_WEBHOOK_SECRET." },
+        { status: 500 }
+      );
+    }
+
+    const { stripe, webhookSecret } = deps;
+
     const body = await request.text();
     const signature = request.headers.get("stripe-signature")!;
 

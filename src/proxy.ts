@@ -1,4 +1,4 @@
-// ─── Middleware for Authentication ──────────────────────────────────────────
+// ─── Proxy for Authentication ───────────────────────────────────────────────
 // Protects routes that require authentication
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -6,7 +6,7 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { createServerClient } from "@supabase/ssr";
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const response = NextResponse.next();
 
   const supabase = createServerClient(
@@ -27,10 +27,10 @@ export async function middleware(request: NextRequest) {
     }
   );
 
-  // Refresh session if expired
-  const { data: { session } } = await supabase.auth.getSession();
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
 
-  // Protected routes
   const protectedPaths = ["/dashboard", "/admin"];
   const isProtectedPath = protectedPaths.some((path) =>
     request.nextUrl.pathname.startsWith(path)
@@ -42,7 +42,6 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(redirectUrl);
   }
 
-  // Admin-only routes
   if (request.nextUrl.pathname.startsWith("/admin") && session) {
     const { data: profile } = await supabase
       .from("users")
