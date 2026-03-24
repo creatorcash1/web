@@ -11,42 +11,42 @@ interface Props {
 
 export default function ProgressSummaryCard({ data }: Props) {
   return (
-    <div className="rounded-xl bg-white/3 border border-white/5 p-5 space-y-4">
+    <div className="rounded-2xl bg-white border border-[#0D1B2A]/10 p-5 space-y-4 shadow-sm">
       <div className="flex items-center gap-2">
         <span className="text-base">📊</span>
-        <h4 className="text-sm font-bold text-white">Your Progress</h4>
+        <h4 className="text-sm font-bold text-[#0D1B2A]">Your Progress</h4>
       </div>
 
       <div className="grid grid-cols-2 gap-3">
-        <div className="bg-white/3 rounded-lg p-3">
-          <p className="text-2xl font-bold text-white">{data.totalCompleted}</p>
-          <p className="text-[10px] text-white/40">of {data.totalCoursesEnrolled} courses completed</p>
+        <div className="bg-[#F7F8FA] rounded-xl p-3">
+          <p className="text-2xl font-bold text-[#0D1B2A]">{data.totalCompleted}</p>
+          <p className="text-xs text-[#0D1B2A]/60">of {data.totalCoursesEnrolled} courses completed</p>
         </div>
-        <div className="bg-white/3 rounded-lg p-3">
-          <p className="text-2xl font-bold text-[#FFC857]">{data.currentStreak}</p>
-          <p className="text-[10px] text-white/40">day streak 🔥</p>
+        <div className="bg-[#F7F8FA] rounded-xl p-3">
+          <p className="text-2xl font-bold text-[#F59E0B]">{data.currentStreak}</p>
+          <p className="text-xs text-[#0D1B2A]/60">day streak 🔥</p>
         </div>
-        <div className="bg-white/3 rounded-lg p-3">
-          <p className="text-2xl font-bold text-[#1CE7D0]">Top {data.percentileRank}%</p>
-          <p className="text-[10px] text-white/40">of all creators</p>
+        <div className="bg-[#F7F8FA] rounded-xl p-3">
+          <p className="text-2xl font-bold text-[#0D9488]">Top {data.percentileRank}%</p>
+          <p className="text-xs text-[#0D1B2A]/60">of all creators</p>
         </div>
-        <div className="bg-white/3 rounded-lg p-3">
+        <div className="bg-[#F7F8FA] rounded-xl p-3">
           {/* Progress ring */}
-          <p className="text-2xl font-bold text-white">
+          <p className="text-2xl font-bold text-[#0D1B2A]">
             {data.totalCoursesEnrolled > 0
               ? Math.round((data.totalCompleted / data.totalCoursesEnrolled) * 100)
               : 0}
             %
           </p>
-          <p className="text-[10px] text-white/40">completion rate</p>
+          <p className="text-xs text-[#0D1B2A]/60">completion rate</p>
         </div>
       </div>
 
       {/* Nearest milestone */}
-      <div className="flex items-center gap-2 bg-[#FFC857]/5 rounded-lg px-3 py-2 border border-[#FFC857]/10">
+      <div className="flex items-center gap-2 bg-gradient-to-r from-[#FFC857]/15 to-[#FFC857]/5 rounded-xl px-4 py-3 border border-[#FFC857]/20">
         <span className="text-sm">🎯</span>
-        <p className="text-xs text-white/80">
-          <span className="font-semibold text-[#FFC857]">Next milestone:</span>{" "}
+        <p className="text-sm text-[#0D1B2A]">
+          <span className="font-semibold text-[#D97706]">Next milestone:</span>{" "}
           {data.nearestMilestone}
         </p>
       </div>

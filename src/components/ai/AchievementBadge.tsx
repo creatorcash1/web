@@ -21,15 +21,15 @@ export default function AchievementBadge({ achievement, compact = false }: Props
       <div
         className={`flex items-center gap-2 px-3 py-1.5 rounded-full border text-xs font-semibold transition-all ${
           isEarned
-            ? "bg-[#FFC857]/10 border-[#FFC857]/30 text-[#FFC857]"
-            : "bg-white/2 border-white/10 text-white/30"
+            ? "bg-[#FFC857]/15 border-[#FFC857]/40 text-[#B45309]"
+            : "bg-[#0D1B2A]/5 border-[#0D1B2A]/15 text-[#0D1B2A]/50"
         }`}
         title={achievement.description}
       >
         <span className="text-sm">{achievement.icon}</span>
         <span>{achievement.title}</span>
         {!isEarned && (
-          <span className="text-[10px] text-white/20">{achievement.progress}%</span>
+          <span className="text-[10px] text-[#0D1B2A]/40">{achievement.progress}%</span>
         )}
       </div>
     );
@@ -39,8 +39,8 @@ export default function AchievementBadge({ achievement, compact = false }: Props
     <div
       className={`relative flex flex-col items-center p-4 rounded-xl border transition-all group ${
         isEarned
-          ? "bg-[#FFC857]/5 border-[#FFC857]/20 hover:border-[#FFC857]/40 shadow-[0_0_16px_rgba(255,200,87,0.06)]"
-          : "bg-white/2 border-white/5 hover:border-white/10"
+          ? "bg-[#FFC857]/10 border-[#FFC857]/30 hover:border-[#FFC857]/50 shadow-sm"
+          : "bg-white border-[#0D1B2A]/10 hover:border-[#0D1B2A]/20"
       }`}
     >
       {/* Progress ring */}
@@ -54,7 +54,7 @@ export default function AchievementBadge({ achievement, compact = false }: Props
             cx={radius + 4}
             cy={radius + 4}
             r={radius}
-            stroke="rgba(255,255,255,0.05)"
+            stroke="rgba(13,27,42,0.1)"
             strokeWidth={3}
             fill="none"
           />
@@ -62,7 +62,7 @@ export default function AchievementBadge({ achievement, compact = false }: Props
             cx={radius + 4}
             cy={radius + 4}
             r={radius}
-            stroke={isEarned ? "#FFC857" : "#1CE7D0"}
+            stroke={isEarned ? "#D97706" : "#0D9488"}
             strokeWidth={3}
             fill="none"
             strokeLinecap="round"
@@ -79,22 +79,22 @@ export default function AchievementBadge({ achievement, compact = false }: Props
       {/* Info */}
       <p
         className={`text-xs font-bold mt-2 text-center ${
-          isEarned ? "text-white" : "text-white/40"
+          isEarned ? "text-[#0D1B2A]" : "text-[#0D1B2A]/50"
         }`}
       >
         {achievement.title}
       </p>
-      <p className="text-[10px] text-white/30 mt-0.5 text-center leading-tight">
+      <p className="text-[10px] text-[#0D1B2A]/50 mt-0.5 text-center leading-tight">
         {achievement.description}
       </p>
 
       {/* Status */}
       {isEarned ? (
-        <span className="mt-2 text-[10px] font-semibold text-[#FFC857] bg-[#FFC857]/10 px-2 py-0.5 rounded-full">
+        <span className="mt-2 text-[10px] font-semibold text-[#B45309] bg-[#FFC857]/20 px-2 py-0.5 rounded-full">
           Earned
         </span>
       ) : (
-        <span className="mt-2 text-[10px] font-semibold text-white/20">
+        <span className="mt-2 text-[10px] font-semibold text-[#0D1B2A]/40">
           {achievement.progress}%
         </span>
       )}
