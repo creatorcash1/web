@@ -691,22 +691,20 @@ const mockSettings: SystemSettings = {
 
 // ─── Fetch Function ─────────────────────────────────────────────────────────
 
-/** Simulate network delay */
-const delay = (ms: number) => new Promise((r) => setTimeout(r, ms));
-
 /** Fetch all admin dashboard data — consumed by React Query */
 export async function fetchAdminDashboard(): Promise<AdminDashboardData> {
-  await delay(700);
-  return {
-    kpis: mockKpis,
-    users: mockUsers,
-    courses: mockCourses,
-    pdfs: mockPDFs,
-    live_sessions: mockLiveSessions,
-    bookings: mockBookings,
-    payments: mockPayments,
-    analytics: mockAnalytics,
-    content_blocks: mockContentBlocks,
-    settings: mockSettings,
-  };
+  const response = await fetch("/api/admin/dashboard", {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+  });
+
+  if (!response.ok) {
+    const err = await response.json().catch(() => ({ error: "Failed to load admin data" }));
+    throw new Error(err.error || "Failed to load admin data");
+  }
+
+  const data = await response.json();
+  return data;
 }
+

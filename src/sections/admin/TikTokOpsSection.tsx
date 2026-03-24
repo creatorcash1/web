@@ -7,7 +7,8 @@ import {
   fetchGroupSchedule,
   fetchTikTokGroups,
   fetchTikTokRequests,
-  updateTikTokGroupInviteUrl,
+  updateTikTokGroup,
+  initTikTokGroups,
 } from "@/services/tiktokOps";
 import type { TikTokGroup, TikTokRequestStatus, TikTokScheduleMember } from "@/types/tiktok";
 import {
@@ -16,13 +17,16 @@ import {
   PaperAirplaneIcon,
   UsersIcon,
   ArrowPathIcon,
+  PlusCircleIcon,
+  PencilIcon,
 } from "@heroicons/react/24/outline";
 
 export default function TikTokOpsSection() {
   const [statusFilter, setStatusFilter] = useState<TikTokRequestStatus | "all">("pending");
   const [selectedGroupId, setSelectedGroupId] = useState<string | null>(null);
   const [actionMessage, setActionMessage] = useState<string | null>(null);
-  const [inviteDraftByGroup, setInviteDraftByGroup] = useState<Record<string, string>>({});
+  const [editDraftByGroup, setEditDraftByGroup] = useState<Record<string, { name: string; inviteUrl: string }>>({});
+  const [editingGroupId, setEditingGroupId] = useState<string | null>(null);
 
   const requestsQuery = useQuery({
     queryKey: ["tiktok-requests", statusFilter],
@@ -58,15 +62,27 @@ export default function TikTokOpsSection() {
     },
   });
 
-  const updateInviteMutation = useMutation({
-    mutationFn: ({ groupId, inviteUrl }: { groupId: string; inviteUrl: string }) =>
-      updateTikTokGroupInviteUrl(groupId, inviteUrl),
+  const updateGroupMutation = useMutation({
+    mutationFn: ({ groupId, name, inviteUrl }: { groupId: string; name?: string; inviteUrl?: string }) =>
+      updateTikTokGroup(groupId, { name, inviteUrl }),
     onSuccess: () => {
       groupsQuery.refetch();
-      setActionMessage("Invite URL updated");
+      setEditingGroupId(null);
+      setActionMessage("Group updated successfully");
     },
     onError: (err: any) => {
-      setActionMessage(err?.message || "Failed to update invite URL");
+      setActionMessage(err?.message || "Failed to update group");
+    },
+  });
+
+  const initGroupsMutation = useMutation({
+    mutationFn: initTikTokGroups,
+    onSuccess: (data) => {
+      groupsQuery.refetch();
+      setActionMessage(data.message);
+    },
+    onError: (err: any) => {
+      setActionMessage(err?.message || "Failed to initialize groups");
     },
   });
 
@@ -189,65 +205,144 @@ export default function TikTokOpsSection() {
             <div className="flex items-center justify-between mb-3">
               <div>
                 <h3 className="text-white text-lg font-semibold">Groups</h3>
-                <p className="text-white/50 text-sm">Capacity per group is 250.</p>
+                <p className="text-white/50 text-sm">
+                  {groups.length} groups • Capacity: 250 each
+                </p>
               </div>
-              <button
-                onClick={() => groupsQuery.refetch()}
-                className="p-2 rounded-lg border border-white/10 text-white/60 hover:text-white"
-                title="Refresh"
-              >
-                <ArrowPathIcon className="w-4 h-4" />
-              </button>
-            </div>
-            <div className="space-y-2 max-h-[260px] overflow-auto pr-1">
-              {groups.map((g) => (
-                <div
-                  key={g.id}
-                  className="border border-white/5 rounded-lg px-3 py-2"
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => initGroupsMutation.mutate()}
+                  disabled={initGroupsMutation.isPending || groups.length >= 50}
+                  className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#1CE7D0] text-[#0D1B2A] text-xs font-bold uppercase disabled:opacity-50"
+                  title="Initialize 50 groups"
                 >
-                  <div className="flex items-start justify-between gap-3">
-                    <div className="min-w-0">
-                      <p className="text-white text-sm font-semibold">{g.name}</p>
-                      <p className="text-white/50 text-xs">{g.member_count} / {g.max_members}</p>
+                  <PlusCircleIcon className="w-4 h-4" />
+                  {initGroupsMutation.isPending ? "Creating…" : "Init Groups"}
+                </button>
+                <button
+                  onClick={() => groupsQuery.refetch()}
+                  className="p-2 rounded-lg border border-white/10 text-white/60 hover:text-white"
+                  title="Refresh"
+                >
+                  <ArrowPathIcon className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+            
+            {groups.length === 0 && !groupsQuery.isLoading && (
+              <div className="text-center py-8">
+                <p className="text-white/50 text-sm mb-3">No groups yet.</p>
+                <button
+                  onClick={() => initGroupsMutation.mutate()}
+                  disabled={initGroupsMutation.isPending}
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[#FFC857] text-[#0D1B2A] text-sm font-bold"
+                >
+                  <PlusCircleIcon className="w-5 h-5" />
+                  Create 50 Groups
+                </button>
+              </div>
+            )}
+            
+            <div className="space-y-2 max-h-[400px] overflow-auto pr-1">
+              {groups.map((g) => {
+                const isEditing = editingGroupId === g.id;
+                const draft = editDraftByGroup[g.id] || { name: g.name, inviteUrl: g.invite_url || "" };
+                
+                return (
+                  <div
+                    key={g.id}
+                    className={`border rounded-lg px-3 py-2 transition-colors ${
+                      isEditing ? "border-[#FFC857]/40 bg-white/5" : "border-white/5"
+                    }`}
+                  >
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="min-w-0 flex-1">
+                        {isEditing ? (
+                          <input
+                            value={draft.name}
+                            onChange={(e) =>
+                              setEditDraftByGroup((prev) => ({
+                                ...prev,
+                                [g.id]: { ...draft, name: e.target.value },
+                              }))
+                            }
+                            placeholder="Group name"
+                            className="w-full rounded-lg border border-white/20 bg-transparent px-3 py-1.5 text-sm text-white font-semibold placeholder:text-white/30"
+                          />
+                        ) : (
+                          <p className="text-white text-sm font-semibold">{g.name}</p>
+                        )}
+                        <p className="text-white/50 text-xs mt-0.5">
+                          {g.member_count} / {g.max_members} members
+                          {g.invite_url && <span className="text-[#1CE7D0] ml-2">✓ Link set</span>}
+                        </p>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <button
+                          onClick={() => {
+                            if (isEditing) {
+                              setEditingGroupId(null);
+                            } else {
+                              setEditDraftByGroup((prev) => ({
+                                ...prev,
+                                [g.id]: { name: g.name, inviteUrl: g.invite_url || "" },
+                              }));
+                              setEditingGroupId(g.id);
+                            }
+                          }}
+                          className={`p-1.5 rounded-lg text-xs font-semibold border ${
+                            isEditing
+                              ? "border-red-400/40 text-red-400 hover:bg-red-500/10"
+                              : "border-white/10 text-white/70 hover:text-white"
+                          }`}
+                          title={isEditing ? "Cancel" : "Edit"}
+                        >
+                          {isEditing ? "✕" : <PencilIcon className="w-3.5 h-3.5" />}
+                        </button>
+                        <button
+                          onClick={() => setSelectedGroupId(g.id)}
+                          className={`px-2 py-1 rounded-lg text-xs font-semibold border ${
+                            selectedGroupId === g.id
+                              ? "border-[#FFC857]/60 text-[#FFC857]"
+                              : "border-white/10 text-white/70 hover:text-white"
+                          }`}
+                        >
+                          View
+                        </button>
+                      </div>
                     </div>
-                    <button
-                      onClick={() => setSelectedGroupId(g.id)}
-                      className={`px-3 py-1 rounded-lg text-xs font-semibold border ${
-                        selectedGroupId === g.id
-                          ? "border-[#FFC857]/60 text-[#FFC857]"
-                          : "border-white/10 text-white/70 hover:text-white"
-                      }`}
-                    >
-                      Schedule
-                    </button>
+                    
+                    {isEditing && (
+                      <div className="mt-3 space-y-2">
+                        <input
+                          value={draft.inviteUrl}
+                          onChange={(e) =>
+                            setEditDraftByGroup((prev) => ({
+                              ...prev,
+                              [g.id]: { ...draft, inviteUrl: e.target.value },
+                            }))
+                          }
+                          placeholder="https://chat.whatsapp.com/..."
+                          className="w-full rounded-lg border border-white/10 bg-transparent px-3 py-1.5 text-xs text-white placeholder:text-white/30"
+                        />
+                        <button
+                          onClick={() =>
+                            updateGroupMutation.mutate({
+                              groupId: g.id,
+                              name: draft.name,
+                              inviteUrl: draft.inviteUrl,
+                            })
+                          }
+                          disabled={updateGroupMutation.isPending}
+                          className="w-full px-3 py-2 rounded-lg bg-[#FFC857] text-[#0D1B2A] text-xs font-bold uppercase disabled:opacity-50"
+                        >
+                          {updateGroupMutation.isPending ? "Saving…" : "Save Changes"}
+                        </button>
+                      </div>
+                    )}
                   </div>
-                  <div className="mt-2 flex items-center gap-2">
-                    <input
-                      value={inviteDraftByGroup[g.id] ?? g.invite_url ?? ""}
-                      onChange={(e) =>
-                        setInviteDraftByGroup((prev) => ({
-                          ...prev,
-                          [g.id]: e.target.value,
-                        }))
-                      }
-                      placeholder="https://chat.whatsapp.com/..."
-                      className="flex-1 rounded-lg border border-white/10 bg-transparent px-3 py-1.5 text-xs text-white placeholder:text-white/30"
-                    />
-                    <button
-                      onClick={() =>
-                        updateInviteMutation.mutate({
-                          groupId: g.id,
-                          inviteUrl: inviteDraftByGroup[g.id] ?? g.invite_url ?? "",
-                        })
-                      }
-                      disabled={updateInviteMutation.isPending}
-                      className="px-3 py-1.5 rounded-lg bg-[#FFC857] text-[#0D1B2A] text-xs font-bold uppercase disabled:opacity-50"
-                    >
-                      Save
-                    </button>
-                  </div>
-                </div>
-              ))}
+                );
+              })}
               {groupsQuery.isError && <p className="text-red-300 text-sm">Failed to load groups.</p>}
               {groupsQuery.isLoading && <p className="text-white/50 text-sm">Loading groups…</p>}
             </div>

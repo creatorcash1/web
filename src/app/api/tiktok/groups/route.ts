@@ -38,29 +38,52 @@ export async function GET() {
 
 export async function PATCH(request: Request) {
   const user = await getServerUser();
-  if (!user || user.role !== "admin") {
-    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  if (!user) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const body = (await request.json()) as { groupId?: string; inviteUrl?: string };
+  // Check admin status via email or role
+  const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "cc@creatorcashcow.com";
+  const isAdmin = user.email === ADMIN_EMAIL;
+  
+  if (!isAdmin) {
+    const supabase = await createServerSupabaseClient();
+    const { data: profile } = await supabase
+      .from("users")
+      .select("role")
+      .eq("id", user.id)
+      .maybeSingle();
+    
+    if (profile?.role !== "admin") {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
+  }
+
+  const body = (await request.json()) as { groupId?: string; name?: string; inviteUrl?: string };
   const groupId = body.groupId;
 
   if (!groupId) {
     return NextResponse.json({ error: "groupId is required" }, { status: 400 });
   }
 
-  const inviteUrl = body.inviteUrl?.trim() ?? null;
+  const updates: Record<string, any> = {};
+  if (body.name !== undefined) updates.name = body.name.trim();
+  if (body.inviteUrl !== undefined) updates.invite_url = body.inviteUrl?.trim() || null;
+
+  if (Object.keys(updates).length === 0) {
+    return NextResponse.json({ error: "No fields to update" }, { status: 400 });
+  }
 
   const supabase = await createServerSupabaseClient();
   const { error } = await supabase
     .from("tiktok_groups")
-    .update({ invite_url: inviteUrl })
+    .update(updates)
     .eq("id", groupId);
 
   if (error) {
-    console.error("Update group invite URL error", error);
-    return NextResponse.json({ error: "Failed to update invite URL" }, { status: 500 });
+    console.error("Update group error", error);
+    return NextResponse.json({ error: "Failed to update group" }, { status: 500 });
   }
 
-  return NextResponse.json({ success: true, groupId, inviteUrl });
+  return NextResponse.json({ success: true, groupId, ...updates });
 }

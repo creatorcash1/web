@@ -56,6 +56,35 @@ export async function updateTikTokGroupInviteUrl(groupId: string, inviteUrl: str
   return res.json() as Promise<{ success: boolean; groupId: string; inviteUrl: string | null }>;
 }
 
+export async function updateTikTokGroup(groupId: string, updates: { name?: string; inviteUrl?: string }) {
+  const res = await fetch("/api/tiktok/groups", {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ groupId, ...updates }),
+  });
+
+  if (!res.ok) {
+    const data = await res.json();
+    throw new Error(data.error || "Failed to update group");
+  }
+
+  return res.json() as Promise<{ success: boolean; groupId: string; name?: string; invite_url?: string | null }>;
+}
+
+export async function initTikTokGroups() {
+  const res = await fetch("/api/tiktok/groups/init", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+  });
+
+  if (!res.ok) {
+    const data = await res.json();
+    throw new Error(data.error || "Failed to initialize groups");
+  }
+
+  return res.json() as Promise<{ message: string; created: number; total: number }>;
+}
+
 export async function fetchGroupSchedule(groupId: string): Promise<TikTokScheduleMember[]> {
   const res = await fetch("/api/tiktok/groups/schedule", {
     method: "POST",
