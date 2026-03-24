@@ -4,6 +4,54 @@ import { getServerUser } from "@/lib/auth";
 
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "cc@creatorcashcow.com";
 
+const DEFAULT_CONTENT_BLOCKS = [
+  {
+    id: "default-landing-hero",
+    page: "landing",
+    section: "Hero",
+    title: "Landing Hero Headline",
+    body: "Build Your Creator Empire with proven courses, mentorship, and digital assets.",
+    published: true,
+    updated_at: new Date(0).toISOString(),
+  },
+  {
+    id: "default-landing-cta",
+    page: "landing",
+    section: "CTA",
+    title: "Landing Primary CTA",
+    body: "Start Learning Today",
+    published: true,
+    updated_at: new Date(0).toISOString(),
+  },
+  {
+    id: "default-mentorship-hero",
+    page: "mentorship",
+    section: "Hero",
+    title: "Mentorship Headline",
+    body: "Book a focused 2-hour strategy session to accelerate your creator growth.",
+    published: true,
+    updated_at: new Date(0).toISOString(),
+  },
+  {
+    id: "default-course-overview",
+    page: "course",
+    section: "Overview",
+    title: "Course Overview Copy",
+    body: "Learn practical systems for monetization, audience growth, and scaling income.",
+    published: true,
+    updated_at: new Date(0).toISOString(),
+  },
+  {
+    id: "default-linkbio-hero",
+    page: "link-in-bio",
+    section: "Hero",
+    title: "Link-in-Bio Intro",
+    body: "One page to showcase your courses, PDFs, and mentorship offers.",
+    published: true,
+    updated_at: new Date(0).toISOString(),
+  },
+];
+
 export async function GET() {
   try {
     // Check admin auth
@@ -239,15 +287,33 @@ export async function GET() {
       .select("*")
       .order("updated_at", { ascending: false });
 
-    const contentBlocks = (contentBlocksRaw ?? []).map((c: any) => ({
-      id: c.id,
-      key: c.key,
-      location: c.location || "landing",
-      label: c.label || c.key,
-      content: c.content,
-      status: c.status || "published",
-      updated_at: c.updated_at,
-    }));
+    const contentBlocks = (contentBlocksRaw ?? []).map((c: any) => {
+      const page =
+        c.page === "landing" ||
+        c.page === "course" ||
+        c.page === "mentorship" ||
+        c.page === "link-in-bio"
+          ? c.page
+          : c.location === "landing" ||
+            c.location === "course" ||
+            c.location === "mentorship" ||
+            c.location === "link-in-bio"
+            ? c.location
+            : "landing";
+
+      return {
+        id: c.id,
+        page,
+        section: c.section || c.label || "General",
+        title: c.title || c.key || c.label || "Content Block",
+        body: c.body || c.content || "",
+        updated_at: c.updated_at || c.created_at || new Date().toISOString(),
+        published: typeof c.published === "boolean" ? c.published : c.status !== "draft",
+      };
+    });
+
+    const contentBlocksFinal =
+      contentBlocks.length > 0 ? contentBlocks : DEFAULT_CONTENT_BLOCKS;
 
     // ─── Analytics (simplified from real data) ──────────────────────────
     const successfulPayments = paymentsData.filter((p: any) => p.status === "success");
@@ -296,7 +362,7 @@ export async function GET() {
       bookings,
       payments: paymentsData,
       analytics,
-      content_blocks: contentBlocks,
+      content_blocks: contentBlocksFinal,
       settings,
     });
   } catch (error: any) {

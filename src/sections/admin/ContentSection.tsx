@@ -49,6 +49,15 @@ export default function AdminContentSection({
         </p>
       </div>
 
+      {contentBlocks.length === 0 && (
+        <div className="rounded-xl border border-white/10 bg-[#0D1B2A] p-5">
+          <p className="text-sm text-white/70">No content blocks found yet.</p>
+          <p className="text-xs text-white/40 mt-1">
+            Create rows in the `content_blocks` table to manage site copy here.
+          </p>
+        </div>
+      )}
+
       {/* Content blocks grouped by page */}
       {Object.entries(grouped).map(([page, blocks]) => (
         <div key={page}>
