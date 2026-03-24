@@ -18,7 +18,7 @@ export default function PDFsSection({ pdfs }: Props) {
         title="No digital products yet"
         description="Supercharge your learning with premium PDF guides, templates, and cheat sheets."
         ctaLabel="Browse PDFs"
-        ctaHref="/pdfs"
+        ctaHref="/dashboard/pdfs"
       />
     );
   }

@@ -18,7 +18,7 @@ export default function PaymentsSection({ payments }: Props) {
         title="No transactions yet"
         description="Your payment history will appear here once you enrol in a course or purchase a digital product."
         ctaLabel="Browse Courses"
-        ctaHref="/courses"
+        ctaHref="/dashboard/courses"
       />
     );
   }

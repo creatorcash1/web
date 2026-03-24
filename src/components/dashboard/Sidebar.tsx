@@ -159,7 +159,7 @@ export default function Sidebar() {
               Unlock premium courses and 1-on-1 mentorship sessions.
             </p>
             <Link
-              href="/courses"
+              href="/dashboard/courses"
               className="block w-full text-center py-2.5 rounded-xl bg-white/10 text-white text-xs font-semibold hover:bg-white/15 transition-all duration-300"
             >
               Browse Courses →

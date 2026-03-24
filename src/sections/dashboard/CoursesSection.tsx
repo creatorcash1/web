@@ -42,7 +42,7 @@ export default function CoursesSection({ courses }: Props) {
         title="Your journey starts here"
         description="Ready to level up? Grab your first course and start building wealth like a pro. No cap, this is gonna change everything."
         ctaLabel="Explore Courses"
-        ctaHref="/courses"
+        ctaHref="/dashboard/courses"
       />
     );
   }
@@ -151,7 +151,7 @@ export default function CoursesSection({ courses }: Props) {
       {courses.length > 0 && (
         <div className="flex justify-center pt-4">
           <a
-            href="/courses"
+            href="/dashboard/courses"
             className="group flex items-center gap-2 px-6 py-3.5 rounded-2xl bg-[#0D1B2A] text-white font-bold text-sm
                        hover:bg-[#12263A] transition-all duration-300 shadow-lg shadow-[#0D1B2A]/25"
           >

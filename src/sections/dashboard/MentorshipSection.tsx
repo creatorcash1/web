@@ -20,7 +20,7 @@ export default function MentorshipSection({ bookings }: Props) {
           title="No mentorship booked"
           description="Take your progress to the next level with a personal 2-hour strategy session with CC Mendel."
           ctaLabel="Book Mentorship"
-          ctaHref="/mentorship/mentorship-2hr"
+          ctaHref="/dashboard/mentorship"
         />
 
         {/* Extra CTA card */}
@@ -35,7 +35,7 @@ export default function MentorshipSection({ bookings }: Props) {
             </div>
           </div>
           <Link
-            href="/mentorship/mentorship-2hr"
+            href="/dashboard/mentorship"
             className="inline-flex items-center justify-center bg-[#FFC857] text-[#0D1B2A] text-sm
                        font-bold uppercase tracking-wider rounded-full px-6 py-3
                        hover:bg-[#f5b732] hover:scale-[1.03] transition-all duration-200 shadow-sm shrink-0"
