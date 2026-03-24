@@ -206,8 +206,9 @@ export default function DashboardPage() {
       {/* Main */}
       <div className="flex-1 flex flex-col min-w-0">
         {/* ── Top bar ─────────────────────────────────── */}
-        <header className="sticky top-0 z-30 bg-white/70 backdrop-blur-xl border-b border-[#0D1B2A]/5 px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex items-center gap-4">
+        <header className="sticky top-0 z-30 px-3 sm:px-5 lg:px-7 pt-3 sm:pt-4">
+          <div className="mx-auto w-full max-w-6xl rounded-2xl border border-[#0D1B2A]/10 bg-white/85 backdrop-blur-xl shadow-sm px-4 sm:px-5 lg:px-6 py-3">
+            <div className="flex items-center gap-4">
             {/* Mobile hamburger */}
             <button
               className="lg:hidden text-[#0D1B2A] p-2.5 -ml-2 rounded-2xl hover:bg-[#0D1B2A]/5 transition-all duration-200"
@@ -249,6 +250,7 @@ export default function DashboardPage() {
               </div>
             </div>
           </div>
+          </div>
         </header>
 
         {/* ── AI Notification Panel ───────────────────── */}
@@ -259,8 +261,10 @@ export default function DashboardPage() {
         />
 
         {/* ── Content area ────────────────────────────── */}
-        <main className="flex-1 p-4 sm:p-6 lg:p-8">
-          {renderSection()}
+        <main className="flex-1 px-3 sm:px-5 lg:px-7 pt-3 sm:pt-4 pb-5 sm:pb-7">
+          <div className="mx-auto w-full max-w-6xl rounded-3xl border border-[#0D1B2A]/8 bg-white/75 backdrop-blur-md shadow-sm p-3 sm:p-4 lg:p-5">
+            {renderSection()}
+          </div>
         </main>
       </div>
     </div>
