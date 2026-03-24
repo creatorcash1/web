@@ -1,5 +1,5 @@
 // ─── Sidebar ─────────────────────────────────────────────────────────────────
-// Premium Gen Z dashboard sidebar with gradient accents and smooth animations.
+// Premium dashboard sidebar with gradient accents and smooth animations.
 // ─────────────────────────────────────────────────────────────────────────────
 "use client";
 

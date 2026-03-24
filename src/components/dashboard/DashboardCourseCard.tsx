@@ -1,5 +1,5 @@
 // ─── DashboardCourseCard ─────────────────────────────────────────────────────
-// Premium Gen Z course card: glassmorphism, gradient progress, smooth animations
+// Premium course card: glassmorphism, gradient progress, smooth animations
 // ─────────────────────────────────────────────────────────────────────────────
 "use client";
 
@@ -25,7 +25,7 @@ export default function DashboardCourseCard({ course }: Props) {
     return "Keep going 🚀";
   };
 
-  // Dynamic CTA text - more casual Gen Z vibes
+  // Dynamic CTA text - casual, modern tone
   const getCTAText = () => {
     if (isCompleted) return "Revisit";
     if (isNew) return "Let's Go";

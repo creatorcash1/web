@@ -1,5 +1,5 @@
 // ─── DashboardCard ───────────────────────────────────────────────────────────
-// Premium Gen Z stat card with gradient accents and smooth animations.
+// Premium stat card with gradient accents and smooth animations.
 // ─────────────────────────────────────────────────────────────────────────────
 "use client";
 

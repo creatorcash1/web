@@ -154,7 +154,7 @@ export default function RegisterPage() {
         {/* Header */}
         <div className="text-center mb-8">
           <span className="inline-flex items-center rounded-full border border-[#1CE7D0]/30 bg-[#1CE7D0]/15 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.2em] text-[#1CE7D0]">
-            Gen Z Creator Community
+            Creator Community
           </span>
           <h1 className="mt-4 text-4xl sm:text-5xl font-extrabold text-white mb-3 font-(family-name:--font-montserrat)">
             Build Your Creator Income

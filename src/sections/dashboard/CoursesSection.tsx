@@ -1,5 +1,5 @@
 // ─── CoursesSection ──────────────────────────────────────────────────────────
-// Premium Gen Z course grid with filtering and modern empty state.
+// Premium course grid with filtering and modern empty state.
 // ─────────────────────────────────────────────────────────────────────────────
 "use client";
 

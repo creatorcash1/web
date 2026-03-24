@@ -1,5 +1,5 @@
 // ─── EmptyState ──────────────────────────────────────────────────────────────
-// Premium Gen Z empty state with gradient visuals and engaging copy.
+// Premium empty state with gradient visuals and engaging copy.
 // ─────────────────────────────────────────────────────────────────────────────
 "use client";
 
