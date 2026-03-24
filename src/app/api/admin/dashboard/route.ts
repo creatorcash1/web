@@ -250,7 +250,15 @@ export async function GET() {
     }));
 
     // ─── Analytics (simplified from real data) ──────────────────────────
+    const successfulPayments = paymentsData.filter((p: any) => p.status === "success");
+    const mrr = Math.round(totalRevenue / 12); // Simplified MRR calculation
+    const arr = totalRevenue;
+
     const analytics = {
+      mrr,
+      arr,
+      churn_rate: 2.5, // Placeholder
+      avg_order_value: avgOrderValue,
       revenue_over_time: [],
       user_growth: [],
       top_products: courses.slice(0, 5).map((c: any) => ({
@@ -261,8 +269,8 @@ export async function GET() {
       conversion_funnel: {
         visitors: totalUsers * 10,
         signups: totalUsers,
-        purchases: paymentsData.filter((p: any) => p.status === "success").length,
-        repeat_customers: Math.floor(paymentsData.filter((p: any) => p.status === "success").length * 0.3),
+        purchases: successfulPayments.length,
+        repeat_customers: Math.floor(successfulPayments.length * 0.3),
       },
     };
 
