@@ -74,7 +74,7 @@ export default function DashboardPage() {
   // ── Data fetching via React Query ──────────────────
   const { data, status } = useQuery({
     queryKey: ["dashboard-data", user?.id],
-    queryFn: () => fetchDashboardData(user?.id ?? ""),
+    queryFn: () => fetchDashboardData(),
     enabled: !!user?.id,
   });
 

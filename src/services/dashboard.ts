@@ -5,8 +5,8 @@
 import type { DashboardData } from "@/types/dashboard";
 
 /** Fetch dashboard data from API */
-export async function fetchDashboardData(userId: string): Promise<DashboardData> {
-  const response = await fetch(`/api/dashboard?userId=${userId}`, {
+export async function fetchDashboardData(): Promise<DashboardData> {
+  const response = await fetch("/api/dashboard", {
     headers: { "Content-Type": "application/json" },
     credentials: "include",
   });

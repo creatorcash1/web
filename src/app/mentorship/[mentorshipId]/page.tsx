@@ -23,7 +23,7 @@ export default function MentorshipDetailPage() {
 
   const { data: dashboard } = useQuery({
     queryKey: ["dashboard-data", "usr_001"],
-    queryFn: () => fetchDashboardData("usr_001"),
+    queryFn: () => fetchDashboardData(),
     staleTime: 5 * 60 * 1000,
   });
 
