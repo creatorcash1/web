@@ -14,12 +14,18 @@ export async function GET() {
     }
 
     const profile = await getUserProfile(user.id);
+    const adminEmail = process.env.ADMIN_EMAIL?.trim().toLowerCase();
+    const isConfiguredAdmin = Boolean(
+      adminEmail && user.email?.toLowerCase() === adminEmail
+    );
+    const resolvedRole = profile?.role ?? (isConfiguredAdmin ? "admin" : "user");
 
     return NextResponse.json({
       user: {
         id: user.id,
         email: user.email,
         ...profile,
+        role: resolvedRole,
       },
     });
   } catch (error: any) {

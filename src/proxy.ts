@@ -15,6 +15,7 @@ export async function proxy(request: NextRequest) {
 
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  const configuredAdminEmail = process.env.ADMIN_EMAIL?.trim().toLowerCase();
 
   if (!supabaseUrl || !supabaseAnonKey) {
     if (isProtectedPath) {
@@ -51,6 +52,14 @@ export async function proxy(request: NextRequest) {
     }
 
     if (request.nextUrl.pathname.startsWith("/admin") && session) {
+      const isConfiguredAdmin = Boolean(
+        configuredAdminEmail && session.user.email?.toLowerCase() === configuredAdminEmail
+      );
+
+      if (isConfiguredAdmin) {
+        return response;
+      }
+
       const { data: profile } = await supabase
         .from("users")
         .select("role")
