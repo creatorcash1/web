@@ -1,0 +1,60 @@
+# CreatorCashCow - Vercel Environment Variables
+# Copy everything below into Vercel (Project Settings -> Environment Variables)
+# Use Production + Preview + Development unless you have a reason not to.
+
+# ======================================================
+# SITE URLS (set both to your live domain)
+# ======================================================
+NEXT_PUBLIC_SITE_URL=https://creatorcashcow.org
+NEXT_PUBLIC_APP_URL=https://creatorcashcow.org
+
+# ======================================================
+# SUPABASE (REQUIRED)
+# ======================================================
+NEXT_PUBLIC_SUPABASE_URL=https://owilcpnhfkupvzvgpdxu.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im93aWxjcG5oZmt1cHZ6dmdwZHh1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzEzODAzMTUsImV4cCI6MjA4Njk1NjMxNX0.j7dYlv_pf_N4OpEIP7G3Tw_Dnpmg-D8tBELa0eITKLE
+SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im93aWxjcG5oZmt1cHZ6dmdwZHh1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3MTM4MDMxNSwiZXhwIjoyMDg2OTU2MzE1fQ.OgsrLsm36-8D5PGazIUBBs1JtXreaITScz2m3Xeuh8g
+
+# ======================================================
+# STRIPE (REQUIRED FOR CHECKOUT + WEBHOOKS)
+# ======================================================
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_live_OR_pk_test_xxxxxxxxxxxxxxxxx
+STRIPE_SECRET_KEY=sk_live_OR_sk_test_xxxxxxxxxxxxxxxxx
+STRIPE_WEBHOOK_SECRET=whsec_xxxxxxxxxxxxxxxxx
+
+# ======================================================
+# RESEND (ADD NOW IF YOU WILL SEND EMAILS)
+# ======================================================
+RESEND_API_KEY=re_2zsBM478_F4hdFEKEdr5zsUMb2nH4EqxM
+RESEND_FROM_EMAIL=hello@creatorcashcow.org
+
+# ======================================================
+# PAYSTACK (ADD NOW IF YOU WILL ENABLE PAYSTACK PAYMENTS)
+# ======================================================
+PAYSTACK_SECRET_KEY=sk_live_xxxxxxxxxxxxxxxxx
+NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY=pk_live_xxxxxxxxxxxxxxxxx
+PAYSTACK_WEBHOOK_SECRET=paystack_whsec_xxxxxxxxxxxxxxxxx
+
+# ======================================================
+# ADMIN SETTINGS
+# ======================================================
+ADMIN_EMAIL=ccmendel@creatorcashcow.com
+ADMIN_PASSWORD=CHANGE_THIS_STRONG_PASSWORD
+ADMIN_SECRET=cc_admin_v1_Hx9Qm2Lp7Rk4Vz8Nw3Tg6Yb1Df5Jr0SaKc8Pu2Xe9Mn4
+
+# ======================================================
+# APP / SECURITY
+# ======================================================
+JWT_SECRET=cc_jwt_v1_Z7mQ2xP9rL4tV8kN3wF6dH1sB5yC0uAeR7jM2qT9nX4pK8vL
+PROMO_CODE=TIKTOKGROWTH26
+TIKTOK_REQUEST_WEBHOOK_URL=https://your-webhook-endpoint.com/tiktok-request-complete
+
+# ======================================================
+# IMPORTANT NOTES
+# ======================================================
+# 1) Your current app uses role-based admin from Supabase (public.users.role = 'admin').
+#    ADMIN_PASSWORD and ADMIN_SECRET are included because you requested them,
+#    but admin access is still controlled by Supabase user role.
+# 2) After adding vars in Vercel, REDEPLOY the project.
+# 3) In Stripe, set webhook endpoint to:
+#    https://creatorcashcow.org/api/webhooks/stripe
