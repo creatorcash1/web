@@ -13,6 +13,7 @@ export default function CourseDetailPage() {
   const search = useSearchParams();
   const trackingId = search.get("ref");
   const trackingUser = search.get("userId");
+  const joined = search.get("joined") === "1";
   const [dashboard, setDashboard] = useState<DashboardData | null>(null);
   const [showRequestForm, setShowRequestForm] = useState(false);
   const [requestSubmitting, setRequestSubmitting] = useState(false);
@@ -63,7 +64,7 @@ export default function CourseDetailPage() {
 
   const enrolledCourse: EnrolledCourse | undefined = dashboard?.courses?.find((courseItem) => courseItem.id === courseId);
   const isPromoEnrollment = enrolledCourse?.access_source === "promo";
-  const enrolled = Boolean(enrolledCourse);
+  const enrolled = Boolean(enrolledCourse) || joined;
 
   if (isLoading) {
     return <main className="p-8 text-sm text-gray-500">Loading course…</main>;
@@ -79,6 +80,12 @@ export default function CourseDetailPage() {
         <h1 className="text-3xl font-black text-[#0D1B2A]">{course.title}</h1>
         <p className="text-gray-500 mt-3">{course.description}</p>
         {trackingId && <p className="text-xs text-[#1CE7D0] mt-2">Tracked referral: {trackingId}</p>}
+        {joined && (
+          <div className="mt-4 rounded-xl border border-[#1CE7D0]/40 bg-[#1CE7D0]/10 p-4">
+            <p className="text-sm font-bold text-[#0D1B2A]">🎉 Congratulations! You joined successfully.</p>
+            <p className="text-xs text-gray-600 mt-1">Tap Start Course below to continue.</p>
+          </div>
+        )}
 
         <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
           {course.lessons.map((lesson) => (

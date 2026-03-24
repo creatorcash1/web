@@ -36,11 +36,16 @@ export default function CheckoutPage() {
         body: JSON.stringify({ productId, accessSource: "promo" }),
       });
 
+      if (res.status === 401) {
+        router.push(`/login?redirect=/checkout/${productId}`);
+        return;
+      }
+
       if (!res.ok) {
         throw new Error("Failed to enroll");
       }
 
-      router.push(`/checkout/success?product_id=${productId}&product_type=course&free_offer=1`);
+      router.push(`/courses/${productId}?joined=1`);
     } catch {
       setPromoMessage("Could not activate free access. Please retry.");
     } finally {

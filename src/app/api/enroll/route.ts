@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { getServerUser } from "@/lib/auth";
-import { createServerSupabaseClient } from "@/lib/supabase/server";
+import { createServiceRoleClient } from "@/lib/supabase/server";
 
 interface Body {
   productId?: string;
@@ -22,14 +22,14 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "productId is required" }, { status: 400 });
     }
 
-    const supabase = await createServerSupabaseClient();
+    const supabase = createServiceRoleClient();
 
     // Ensure course exists
     const { data: course } = await supabase
       .from("courses")
       .select("id")
       .eq("id", productId)
-      .single();
+      .maybeSingle();
 
     if (!course) {
       return NextResponse.json({ error: "Course not found" }, { status: 404 });

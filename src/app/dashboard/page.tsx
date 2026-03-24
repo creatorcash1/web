@@ -179,54 +179,75 @@ export default function DashboardPage() {
 
   // ── Section title map ──────────────────────────────
   const titles: Record<string, string> = {
-    overview:   "My Creator Dashboard",
-    courses:    "My Courses",
+    overview:   "Hey there 👋",
+    courses:    "Your Courses",
     live:       "Live Sessions",
-    pdfs:       "My PDFs",
+    pdfs:       "Your PDFs",
     mentorship: "Mentorship",
     payments:   "Payments",
     settings:   "Settings",
   };
 
+  const subtitles: Record<string, string> = {
+    overview:   "Let's crush it today",
+    courses:    "Keep learning, keep growing",
+    live:       "Join live & level up",
+    pdfs:       "Your digital vault",
+    mentorship: "1-on-1 guidance",
+    payments:   "Your transactions",
+    settings:   "Customize your experience",
+  };
+
   return (
-    <div className="flex min-h-screen bg-[#F7F8FA]">
+    <div className="flex min-h-screen bg-gradient-to-br from-[#F8FAFC] via-[#F1F5F9] to-[#E2E8F0]">
       {/* Sidebar */}
       <Sidebar />
 
       {/* Main */}
       <div className="flex-1 flex flex-col min-w-0">
         {/* ── Top bar ─────────────────────────────────── */}
-        <header className="sticky top-0 z-30 bg-white/80 backdrop-blur border-b border-[#E5E5E5] px-4 sm:px-6 lg:px-8 py-4 flex items-center gap-4">
-          {/* Mobile hamburger */}
-          <button
-            className="lg:hidden text-[#0D1B2A] p-2 -ml-2 rounded-lg hover:bg-[#E5E5E5]/60 transition"
-            onClick={toggleSidebar}
-            aria-label="Open menu"
-          >
-            <Bars3Icon className="w-5 h-5" />
-          </button>
-
-          <h1 className="font-(family-name:--font-montserrat) font-extrabold text-lg text-[#0D1B2A] tracking-tight">
-            {titles[activeSection] ?? "Dashboard"}
-          </h1>
-
-          {/* Right side — notification bell + avatar */}
-          <div className="ml-auto flex items-center gap-3">
+        <header className="sticky top-0 z-30 bg-white/70 backdrop-blur-xl border-b border-[#0D1B2A]/5 px-4 sm:px-6 lg:px-8 py-4">
+          <div className="flex items-center gap-4">
+            {/* Mobile hamburger */}
             <button
-              onClick={toggleNotificationPanel}
-              className="relative p-2 rounded-lg text-[#0D1B2A]/60 hover:bg-[#E5E5E5]/60 transition"
-              aria-label="AI Notifications"
+              className="lg:hidden text-[#0D1B2A] p-2.5 -ml-2 rounded-2xl hover:bg-[#0D1B2A]/5 transition-all duration-200"
+              onClick={toggleSidebar}
+              aria-label="Open menu"
             >
-              <BellIcon className="w-5 h-5" />
-              {aiMessages.length > 0 && (
-                <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-[#FFC857]" />
-              )}
+              <Bars3Icon className="w-5 h-5" />
             </button>
-            <img
-              src={d.user.avatar_url}
-              alt={d.user.full_name}
-              className="w-9 h-9 rounded-full border-2 border-[#FFC857] object-cover"
-            />
+
+            {/* Title and subtitle */}
+            <div className="flex-1">
+              <h1 className="font-black text-xl text-[#0D1B2A] tracking-tight">
+                {titles[activeSection] ?? "Dashboard"}
+              </h1>
+              <p className="text-[#0D1B2A]/50 text-sm hidden sm:block">
+                {subtitles[activeSection] ?? "Your creator hub"}
+              </p>
+            </div>
+
+            {/* Right side — notification bell + avatar */}
+            <div className="flex items-center gap-2">
+              <button
+                onClick={toggleNotificationPanel}
+                className="relative p-2.5 rounded-2xl text-[#0D1B2A]/60 hover:bg-[#0D1B2A]/5 transition-all duration-200"
+                aria-label="AI Notifications"
+              >
+                <BellIcon className="w-5 h-5" />
+                {aiMessages.length > 0 && (
+                  <span className="absolute top-2 right-2 w-2 h-2 rounded-full bg-gradient-to-r from-[#FFC857] to-[#F59E0B] shadow-lg shadow-amber-500/50" />
+                )}
+              </button>
+              <div className="relative group cursor-pointer">
+                <div className="absolute -inset-0.5 bg-gradient-to-r from-[#1CE7D0] to-[#FFC857] rounded-full opacity-0 group-hover:opacity-70 transition-opacity duration-300 blur-sm" />
+                <img
+                  src={d.user.avatar_url}
+                  alt={d.user.full_name}
+                  className="relative w-10 h-10 rounded-full border-2 border-white object-cover shadow-lg"
+                />
+              </div>
+            </div>
           </div>
         </header>
 

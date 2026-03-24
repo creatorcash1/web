@@ -179,10 +179,11 @@ export default function OverviewSection({ data }: Props) {
       {/* ── Achievements Row ─────────────────────────── */}
       {earnedAchievements.length > 0 && (
         <div>
-          <h3 className="font-bold text-[#0D1B2A] mb-3 text-lg flex items-center gap-2">
-            <span>🏆</span> Your Achievements
-            <span className="text-xs font-normal text-gray-400 ml-1">
-              {earnedAchievements.length}/{achievements.length} earned
+          <h3 className="font-black text-[#0D1B2A] mb-4 text-lg flex items-center gap-2">
+            <span className="flex items-center justify-center w-8 h-8 rounded-xl bg-gradient-to-br from-amber-100 to-amber-200 text-amber-600">🏆</span>
+            Your Achievements
+            <span className="text-xs font-semibold text-white bg-[#0D1B2A] px-2 py-1 rounded-full ml-2">
+              {earnedAchievements.length}/{achievements.length}
             </span>
           </h3>
           <div className="flex flex-wrap gap-2">
@@ -195,8 +196,16 @@ export default function OverviewSection({ data }: Props) {
 
       {/* ── Recent courses ───────────────────────────── */}
       <div>
-        <h3 className="font-bold text-[#0D1B2A] mb-4 text-lg">Continue Where You Left Off</h3>
-        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
+        <div className="flex items-center justify-between mb-6">
+          <h3 className="font-black text-[#0D1B2A] text-lg flex items-center gap-2">
+            <span className="flex items-center justify-center w-8 h-8 rounded-xl bg-gradient-to-br from-teal-100 to-cyan-200 text-teal-600">🎯</span>
+            Continue Learning
+          </h3>
+          <a href="/dashboard/courses" className="text-sm font-semibold text-[#1CE7D0] hover:text-[#0D1B2A] transition-colors">
+            View all →
+          </a>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
           {courses.slice(0, 3).map((c) => (
             <DashboardCourseCard key={c.id} course={c} />
           ))}
