@@ -36,8 +36,16 @@ export default function LoginPage() {
         throw new Error(data.error || "Sign in failed");
       }
 
-      // Redirect to dashboard
-      router.push("/dashboard");
+      const redirectTarget =
+        typeof window !== "undefined"
+          ? new URLSearchParams(window.location.search).get("redirect")
+          : null;
+      const safeRedirect =
+        redirectTarget && redirectTarget.startsWith("/")
+          ? redirectTarget
+          : "/dashboard";
+
+      router.push(safeRedirect);
       router.refresh();
     } catch (err: any) {
       setError(err.message || "An error occurred during sign in");
