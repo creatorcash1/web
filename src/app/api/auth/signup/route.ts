@@ -152,6 +152,9 @@ async function sendSignupWelcomeEmail(payload: {
     return false;
   }
 
+  const senderName = "CreatorCashCow";
+  const fromFormatted = `${senderName} <${fromEmail}>`;
+
   const firstName = payload.fullName.split(" ")[0] ?? "there";
   const inviteButton = payload.inviteUrl
     ? `<a href="${payload.inviteUrl}" style="display:inline-block;background:#25D366;color:#0D1B2A;padding:12px 20px;border-radius:999px;text-decoration:none;font-weight:700;margin-right:10px;">Join Your WhatsApp Group</a>`
@@ -192,7 +195,7 @@ async function sendSignupWelcomeEmail(payload: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        from: fromEmail,
+        from: fromFormatted,
         to: [payload.email],
         subject: "Welcome to CreatorCashCow — Your Access is Ready",
         html,

@@ -84,6 +84,9 @@ async function sendCompletionEmail(payload: {
     return false;
   }
 
+  const senderName = "CreatorCashCow";
+  const fromFormatted = `${senderName} <${fromEmail}>`;
+
   const firstName = payload.fullName.split(" ")[0] ?? "there";
   const inviteBlock = payload.inviteUrl
     ? `\nJoin your TikTok group here: ${payload.inviteUrl}\n`
@@ -129,7 +132,7 @@ async function sendCompletionEmail(payload: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        from: fromEmail,
+        from: fromFormatted,
         to: [payload.email],
         subject,
         text,
