@@ -215,48 +215,16 @@ export async function fetchAIBrainForUser(userId: string): Promise<AIBrainOutput
 
 /** Run AI Brain pipeline for all users (admin AI Brain section) */
 export async function fetchAIBrainDashboard(): Promise<AIBrainDashboardData> {
-  await delay(500);
+  const response = await fetch("/api/admin/ai-brain", {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+  });
 
-  const startTime = Date.now();
-  const userProfiles = MOCK_AI_INPUTS.map((input) => runAIBrainPipeline(input));
-  const processingTime = Date.now() - startTime;
-
-  // Aggregate for admin insights
-  const allData = MOCK_AI_INPUTS.map((input) => ({
-    input,
-    behavior: analyzeBehavior(input),
-    churn: predictChurn(input, analyzeBehavior(input)),
-  }));
-
-  const globalInsights = reportAdminInsights(allData);
-
-  // Global forecasting & product performance
-  const forecast = computeGlobalForecast(MOCK_AI_INPUTS);
-  const productPerformance = computeGlobalProductPerformance(MOCK_AI_INPUTS);
-
-  // Aggregate all campaigns across users (deduplicate by campaign name)
-  const campaignMap = new Map<string, EmailCampaign>();
-  for (const profile of userProfiles) {
-    for (const campaign of profile.content.campaigns) {
-      const existing = campaignMap.get(campaign.name);
-      if (existing) {
-        existing.enrolledUsers += campaign.enrolledUsers;
-      } else {
-        campaignMap.set(campaign.name, { ...campaign, enrolledUsers: campaign.enrolledUsers });
-      }
-    }
+  if (!response.ok) {
+    const err = await response.json().catch(() => ({ error: "Failed to load AI Brain data" }));
+    throw new Error(err.error || "Failed to load AI Brain data");
   }
-  const campaigns = Array.from(campaignMap.values());
 
-  const brainHealth: AIBrainHealth = {
-    status: "operational",
-    lastRun: new Date().toISOString(),
-    totalUsersAnalyzed: MOCK_AI_INPUTS.length,
-    avgProcessingTimeMs: Math.round(processingTime / MOCK_AI_INPUTS.length),
-    cacheHitRate: 78,
-    apiCallsToday: 142,
-    apiCallsLimit: 1000,
-  };
-
-  return { userProfiles, globalInsights, brainHealth, forecast, productPerformance, campaigns };
+  return (await response.json()) as AIBrainDashboardData;
 }

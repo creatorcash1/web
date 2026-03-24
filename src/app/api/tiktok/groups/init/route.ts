@@ -72,8 +72,9 @@ export async function POST() {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const isAdmin = authUser.email === ADMIN_EMAIL;
-    if (!isAdmin) {
+    const isAdminByEmail = authUser.email === ADMIN_EMAIL;
+    const isAdminByRole = authUser.role === "admin";
+    if (!isAdminByEmail && !isAdminByRole) {
       const supabase = await createServiceRoleClient();
       const { data: profile } = await supabase
         .from("users")
@@ -93,7 +94,17 @@ export async function POST() {
       .from("tiktok_groups")
       .select("*", { count: "exact", head: true });
 
+    const { data: existingGroups, error: existingGroupsError } = await supabase
+      .from("tiktok_groups")
+      .select("order_index");
+
+    if (existingGroupsError) {
+      console.error("Error loading existing groups:", existingGroupsError);
+      return NextResponse.json({ error: "Failed to inspect existing groups" }, { status: 500 });
+    }
+
     const existingCount = count || 0;
+    const existingOrderIndexes = new Set<number>((existingGroups || []).map((group: any) => group.order_index));
 
     if (existingCount >= MAX_GROUPS) {
       return NextResponse.json({
@@ -105,8 +116,12 @@ export async function POST() {
 
     // Create missing groups with creative names
     const groupsToCreate = [];
-    for (let i = existingCount; i < MAX_GROUPS; i++) {
+    for (let i = 0; i < MAX_GROUPS; i++) {
       const orderIndex = i + 1;
+      if (existingOrderIndexes.has(orderIndex)) {
+        continue;
+      }
+
       groupsToCreate.push({
         name: GROUP_NAMES[i] || `Creator Room ${orderIndex}`,
         order_index: orderIndex,

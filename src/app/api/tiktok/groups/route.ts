@@ -1,14 +1,42 @@
 import { NextResponse } from "next/server";
 import { getServerUser } from "@/lib/auth";
-import { createServerSupabaseClient } from "@/lib/supabase/server";
+import { createServiceRoleClient } from "@/lib/supabase/server";
 
-export async function GET() {
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "cc@creatorcashcow.com";
+
+async function requireAdmin() {
   const user = await getServerUser();
-  if (!user || user.role !== "admin") {
-    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  if (!user) {
+    return { error: NextResponse.json({ error: "Unauthorized" }, { status: 401 }) };
   }
 
-  const supabase = await createServerSupabaseClient();
+  const isAdminByEmail = user.email === ADMIN_EMAIL;
+  const isAdminByRole = user.role === "admin";
+  if (isAdminByEmail || isAdminByRole) {
+    return { user };
+  }
+
+  const supabase = await createServiceRoleClient();
+  const { data: profile } = await supabase
+    .from("users")
+    .select("role")
+    .eq("id", user.id)
+    .maybeSingle();
+
+  if (profile?.role !== "admin") {
+    return { error: NextResponse.json({ error: "Forbidden" }, { status: 403 }) };
+  }
+
+  return { user };
+}
+
+export async function GET() {
+  const auth = await requireAdmin();
+  if (auth.error) {
+    return auth.error;
+  }
+
+  const supabase = await createServiceRoleClient();
   const { data: groups, error } = await supabase
     .from("tiktok_groups")
     .select("id, name, order_index, max_members, invite_url")
@@ -37,26 +65,9 @@ export async function GET() {
 }
 
 export async function PATCH(request: Request) {
-  const user = await getServerUser();
-  if (!user) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
-
-  // Check admin status via email or role
-  const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "cc@creatorcashcow.com";
-  const isAdmin = user.email === ADMIN_EMAIL;
-  
-  if (!isAdmin) {
-    const supabase = await createServerSupabaseClient();
-    const { data: profile } = await supabase
-      .from("users")
-      .select("role")
-      .eq("id", user.id)
-      .maybeSingle();
-    
-    if (profile?.role !== "admin") {
-      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
-    }
+  const auth = await requireAdmin();
+  if (auth.error) {
+    return auth.error;
   }
 
   const body = (await request.json()) as { groupId?: string; name?: string; inviteUrl?: string };
@@ -74,7 +85,7 @@ export async function PATCH(request: Request) {
     return NextResponse.json({ error: "No fields to update" }, { status: 400 });
   }
 
-  const supabase = await createServerSupabaseClient();
+  const supabase = await createServiceRoleClient();
   const { error } = await supabase
     .from("tiktok_groups")
     .update(updates)

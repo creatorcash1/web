@@ -32,18 +32,27 @@ export default function TikTokOpsSection() {
     queryKey: ["tiktok-requests", statusFilter],
     queryFn: () => fetchTikTokRequests(statusFilter === "all" ? undefined : statusFilter as TikTokRequestStatus),
     staleTime: 30_000,
+    retry: false,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
   });
 
   const groupsQuery = useQuery({
     queryKey: ["tiktok-groups"],
     queryFn: fetchTikTokGroups,
     staleTime: 30_000,
+    retry: false,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
   });
 
   const scheduleQuery = useQuery({
     queryKey: ["tiktok-schedule", selectedGroupId],
     queryFn: () => fetchGroupSchedule(selectedGroupId as string),
     enabled: Boolean(selectedGroupId),
+    retry: false,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
   });
 
   const completeMutation = useMutation({
@@ -343,7 +352,11 @@ export default function TikTokOpsSection() {
                   </div>
                 );
               })}
-              {groupsQuery.isError && <p className="text-red-300 text-sm">Failed to load groups.</p>}
+              {groupsQuery.isError && (
+                <p className="text-red-300 text-sm">
+                  Failed to load groups. {(groupsQuery.error as Error | null)?.message ?? "Please refresh."}
+                </p>
+              )}
               {groupsQuery.isLoading && <p className="text-white/50 text-sm">Loading groups…</p>}
             </div>
           </div>

@@ -54,6 +54,8 @@ export default function AdminPage() {
     queryFn: fetchAdminDashboard,
     staleTime: 5 * 60 * 1000,
     enabled: !!user && user.role === "admin",
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
   });
 
   // ─── Auth guard ────────────────────────────────────────────────────────────
