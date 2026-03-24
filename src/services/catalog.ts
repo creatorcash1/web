@@ -23,12 +23,14 @@ export interface CatalogMentorship {
   durationMinutes: number;
 }
 
+import { getCoursePrice } from "@/lib/freeOffer";
+
 export const COURSE_CATALOG: CatalogCourse[] = [
   {
     courseId: "crs_001",
     title: "How to Turn What You Know Into $10k Monthly",
     description: "Master the complete system for transforming your knowledge and skills into consistent $10,000+ monthly income. Includes 2 step-by-step video trainings and 1 comprehensive implementation ebook.",
-    price: 57.99,
+    price: getCoursePrice("crs_001"),
     lessons: [
       { id: "l1", title: "Foundation: Building Your $10k System", durationMinutes: 45 },
       { id: "l2", title: "Execution: Scaling to Consistent Revenue", durationMinutes: 52 },

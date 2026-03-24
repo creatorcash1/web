@@ -3,10 +3,12 @@
 // and animated floating gold spark accents for visual energy.
 // ─────────────────────────────────────────────────────────────────────────────
 import Button from "@/components/Button";
+import FreeOfferCountdown from "@/components/FreeOfferCountdown";
 import {
   SparklesIcon,
   PlayCircleIcon,
 } from "@heroicons/react/24/solid";
+import { FREE_COURSE_OFFER_END_AT, isFreeCourseOfferActive } from "@/lib/freeOffer";
 
 // Floating spark shapes around the hero background
 const sparks = [
@@ -19,6 +21,8 @@ const sparks = [
 ];
 
 export default function HeroSection() {
+  const isFree = isFreeCourseOfferActive();
+
   return (
     <section
       id="hero"
@@ -90,7 +94,7 @@ export default function HeroSection() {
             {/* CTA row */}
             <div className="flex flex-col sm:flex-row gap-4">
               <Button variant="primary" size="lg" href="/register?redirect=checkout">
-                Get Started – $57.99
+                {isFree ? "Get Started — FREE" : "Get Started — $57.99"}
               </Button>
               <Button variant="secondary" size="lg" href="#what-you-get">
                 <PlayCircleIcon className="w-5 h-5 mr-2" aria-hidden="true" />
@@ -142,11 +146,24 @@ export default function HeroSection() {
               <div className="absolute bottom-6 left-6 right-6 bg-white/10 backdrop-blur-md rounded-xl border border-white/20 p-4">
                 <p className="text-xs text-white/60 uppercase tracking-wider mb-1">Complete Course</p>
                 <div className="flex items-end gap-2">
-                  <span className="text-2xl font-black text-[#FFC857]">$57.99</span>
+                  {isFree ? (
+                    <>
+                      <span className="text-lg font-bold text-white/50 line-through">$57.99</span>
+                      <span className="text-2xl font-black text-[#FFC857]">$0</span>
+                    </>
+                  ) : (
+                    <span className="text-2xl font-black text-[#FFC857]">$57.99</span>
+                  )}
                   <span className="ml-auto text-xs bg-[#1CE7D0]/20 text-[#1CE7D0] border border-[#1CE7D0]/30 rounded-full px-2 py-0.5 font-semibold">
                     2 Videos + Ebook
                   </span>
                 </div>
+                {isFree && (
+                  <div className="mt-2">
+                    <p className="text-[10px] text-white/60 uppercase tracking-wider mb-1">Free offer ends in</p>
+                    <FreeOfferCountdown targetDate={FREE_COURSE_OFFER_END_AT} />
+                  </div>
+                )}
               </div>
             </div>
           </div>

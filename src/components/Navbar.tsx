@@ -8,6 +8,7 @@ import { useState, useEffect } from "react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import Button from "./Button";
+import { isFreeCourseOfferActive } from "@/lib/freeOffer";
 
 const navLinks = [
   { label: "Home",       href: "/" },
@@ -18,6 +19,7 @@ const navLinks = [
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const isFree = isFreeCourseOfferActive();
 
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 20);
@@ -71,7 +73,7 @@ export default function Navbar() {
               Log In
             </Link>
             <Button variant="primary" size="sm" href="/register?redirect=checkout">
-              Start Now — $57.99
+              {isFree ? "Start Now — FREE" : "Start Now — $57.99"}
             </Button>
           </div>
 

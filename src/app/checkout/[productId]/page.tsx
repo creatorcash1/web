@@ -4,6 +4,8 @@ import Link from "next/link";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { enrollAfterPayment } from "@/services/payments";
+import FreeOfferCountdown from "@/components/FreeOfferCountdown";
+import { FREE_COURSE_ID, FREE_COURSE_OFFER_END_AT, isFreeCourseOfferActive } from "@/lib/freeOffer";
 
 export default function CheckoutPage() {
   const params = useParams<{ productId: string }>();
@@ -16,12 +18,34 @@ export default function CheckoutPage() {
   const productId = params.productId;
   const sessionId = searchParams.get("sessionId");
   const userId = searchParams.get("userId") ?? "usr_001";
+  const isFreeOffer = productId === FREE_COURSE_ID && isFreeCourseOfferActive();
 
   async function handleSuccess() {
     setLoading(true);
     await enrollAfterPayment({ userId, productId });
     setLoading(false);
     router.push("/dashboard");
+  }
+
+  async function handleFreeAccess() {
+    setLoading(true);
+    try {
+      const res = await fetch("/api/enroll", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ productId, accessSource: "promo" }),
+      });
+
+      if (!res.ok) {
+        throw new Error("Failed to enroll");
+      }
+
+      router.push(`/checkout/success?product_id=${productId}&product_type=course&free_offer=1`);
+    } catch {
+      setPromoMessage("Could not activate free access. Please retry.");
+    } finally {
+      setLoading(false);
+    }
   }
 
   async function handlePromoRedeem() {
@@ -51,11 +75,28 @@ export default function CheckoutPage() {
         <h1 className="text-2xl font-black text-[#0D1B2A]">Checkout</h1>
         <p className="text-gray-500 mt-2">Product: {productId}</p>
         {sessionId && <p className="text-xs text-[#1CE7D0] mt-1">Session: {sessionId}</p>}
+        {isFreeOffer && (
+          <div className="mt-4 rounded-xl border border-[#1CE7D0]/30 bg-[#1CE7D0]/5 p-4">
+            <p className="text-sm font-bold text-[#0D1B2A]">Limited offer: Course is FREE for 15 days</p>
+            <div className="mt-1 flex items-center gap-3">
+              <span className="text-sm text-gray-500 line-through">$57.99</span>
+              <span className="text-2xl font-black text-[#FFC857]">$0</span>
+            </div>
+            <p className="text-xs text-gray-600 mt-2">Offer ends in</p>
+            <FreeOfferCountdown targetDate={FREE_COURSE_OFFER_END_AT} />
+          </div>
+        )}
 
         <div className="mt-8 flex flex-wrap gap-3">
-          <button onClick={handleSuccess} disabled={loading} className="px-5 py-2.5 rounded-lg bg-[#FFC857] text-[#0D1B2A] text-xs font-bold uppercase disabled:opacity-50">
-            {loading ? "Processing…" : "Checkout with Stripe"}
-          </button>
+          {isFreeOffer ? (
+            <button onClick={handleFreeAccess} disabled={loading} className="px-5 py-2.5 rounded-lg bg-[#FFC857] text-[#0D1B2A] text-xs font-bold uppercase disabled:opacity-50">
+              {loading ? "Activating…" : "Get Free Access — $0"}
+            </button>
+          ) : (
+            <button onClick={handleSuccess} disabled={loading} className="px-5 py-2.5 rounded-lg bg-[#FFC857] text-[#0D1B2A] text-xs font-bold uppercase disabled:opacity-50">
+              {loading ? "Processing…" : "Checkout with Stripe"}
+            </button>
+          )}
           <Link href={`/courses/${productId}`} className="px-5 py-2.5 rounded-lg bg-[#0D1B2A] text-white text-xs font-bold uppercase">
             Cancel & Return
           </Link>

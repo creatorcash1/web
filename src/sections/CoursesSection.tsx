@@ -7,6 +7,8 @@ import {
   DocumentTextIcon,
   CheckCircleIcon,
 } from "@heroicons/react/24/outline";
+import FreeOfferCountdown from "@/components/FreeOfferCountdown";
+import { FREE_COURSE_OFFER_END_AT, isFreeCourseOfferActive } from "@/lib/freeOffer";
 
 const courseContent = [
   {
@@ -51,6 +53,8 @@ const courseContent = [
 ];
 
 export default function CoursesSection() {
+  const isFree = isFreeCourseOfferActive();
+
   return (
     <section
       id="what-you-get"
@@ -125,13 +129,26 @@ export default function CoursesSection() {
               </p>
             </div>
             <div className="flex items-center justify-center gap-4 mb-6">
-              <span className="text-5xl font-black text-[#FFC857]">$57.99</span>
+              {isFree ? (
+                <>
+                  <span className="text-3xl font-bold text-white/50 line-through">$57.99</span>
+                  <span className="text-5xl font-black text-[#FFC857]">$0</span>
+                </>
+              ) : (
+                <span className="text-5xl font-black text-[#FFC857]">$57.99</span>
+              )}
             </div>
+            {isFree && (
+              <div className="mb-4 text-center">
+                <p className="text-white/70 text-xs uppercase tracking-widest mb-1">Free offer ends in</p>
+                <FreeOfferCountdown targetDate={FREE_COURSE_OFFER_END_AT} />
+              </div>
+            )}
             <a
               href="/register?redirect=checkout"
               className="inline-block bg-[#FFC857] hover:bg-[#FFB627] text-[#0D1B2A] font-bold px-8 py-4 rounded-xl transition-colors"
             >
-              Start Learning Now →
+              {isFree ? "Get Free Access →" : "Start Learning Now →"}
             </a>
           </div>
         </div>

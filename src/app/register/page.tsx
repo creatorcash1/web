@@ -8,15 +8,24 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Button from "@/components/Button";
 
+interface SignupResponse {
+  assignedWhatsappLink?: string | null;
+  dashboardLoginUrl?: string;
+  assignedGroupName?: string | null;
+}
+
 export default function RegisterPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
+  const [successData, setSuccessData] = useState<SignupResponse | null>(null);
 
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
+    phone: "",
+    country: "",
     password: "",
     confirmPassword: "",
   });
@@ -26,7 +35,7 @@ export default function RegisterPage() {
     setError("");
     
     // Validation
-    if (!formData.email || !formData.password || !formData.fullName) {
+    if (!formData.email || !formData.password || !formData.fullName || !formData.phone || !formData.country) {
       setError("Please fill in all fields");
       return;
     }
@@ -51,18 +60,21 @@ export default function RegisterPage() {
           email: formData.email,
           password: formData.password,
           fullName: formData.fullName,
+          phone: formData.phone,
+          country: formData.country,
         }),
       });
 
-      const data = await response.json();
+      const data = (await response.json()) as SignupResponse & { error?: string };
 
       if (!response.ok) {
         throw new Error(data.error || "Sign up failed");
       }
 
+      setSuccessData(data);
       setSuccess(true);
       
-      // Auto sign in after successful signup
+      // Auto sign in in background
       const signInResponse = await fetch("/api/auth/signin", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -72,11 +84,8 @@ export default function RegisterPage() {
         }),
       });
 
-      if (signInResponse.ok) {
-        router.push("/dashboard");
-      } else {
-        // If auto-signin fails, redirect to login
-        setTimeout(() => router.push("/login"), 2000);
+      if (!signInResponse.ok) {
+        console.warn("Auto sign-in failed after signup");
       }
     } catch (err: any) {
       setError(err.message || "An error occurred during sign up");
@@ -95,30 +104,55 @@ export default function RegisterPage() {
             Account Created!
           </h1>
           <p className="text-gray-600 mb-4">
-            Welcome to CreatorCashCow! Redirecting to your dashboard...
+            Welcome to CreatorCashCow! Your account is ready.
           </p>
-          <div className="w-8 h-8 border-4 border-[#FFC857] border-t-transparent rounded-full animate-spin mx-auto"></div>
+          {successData?.assignedGroupName && (
+            <p className="text-sm text-[#0D1B2A] mb-4">
+              Assigned Group: <span className="font-semibold">{successData.assignedGroupName}</span>
+            </p>
+          )}
+          <div className="flex flex-col gap-3">
+            {successData?.assignedWhatsappLink ? (
+              <a
+                href={successData.assignedWhatsappLink}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center justify-center bg-[#25D366] text-[#0D1B2A] font-bold text-sm uppercase tracking-wider rounded-full px-6 py-3"
+              >
+                Join Assigned WhatsApp Group
+              </a>
+            ) : (
+              <p className="text-xs text-gray-500">WhatsApp link will be provided shortly by admin.</p>
+            )}
+            <button
+              type="button"
+              onClick={() => router.push("/dashboard")}
+              className="inline-flex items-center justify-center bg-[#FFC857] text-[#0D1B2A] font-bold text-sm uppercase tracking-wider rounded-full px-6 py-3"
+            >
+              Log Into Dashboard
+            </button>
+          </div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-[#0D1B2A] to-[#1a2f42] flex items-center justify-center px-4 py-12">
-      <div className="max-w-md w-full bg-white rounded-2xl shadow-2xl p-8">
+    <div className="min-h-screen bg-linear-to-br from-[#0B1220] to-[#111b2e] flex items-center justify-center px-4 py-12">
+      <div className="max-w-xl w-full bg-[#2B3448] rounded-4xl border border-white/15 shadow-2xl p-8 sm:p-10">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-extrabold text-[#0D1B2A] mb-2 font-(family-name:--font-montserrat)">
-            Join CreatorCashCow
+          <h1 className="text-5xl font-extrabold text-white mb-2 font-(family-name:--font-montserrat)">
+            Join the Community
           </h1>
-          <p className="text-gray-600 text-sm">
-            Start building your creator empire today
+          <p className="text-gray-300 text-2xl">
+            Start your creator journey today
           </p>
         </div>
 
         {/* Error Message */}
         {error && (
-          <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-6 text-sm">
+          <div className="bg-red-500/10 border border-red-300/30 text-red-200 px-4 py-3 rounded-lg mb-6 text-sm">
             {error}
           </div>
         )}
@@ -126,7 +160,7 @@ export default function RegisterPage() {
         {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
-            <label htmlFor="fullName" className="block text-sm font-semibold text-gray-700 mb-2">
+            <label htmlFor="fullName" className="block text-sm font-semibold text-white mb-2">
               Full Name
             </label>
             <input
@@ -134,15 +168,15 @@ export default function RegisterPage() {
               type="text"
               value={formData.fullName}
               onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-              className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#1CE7D0] focus:border-transparent transition-all text-gray-900"
-              placeholder="Jordan Mitchell"
+              className="w-full px-4 py-3 border border-white/10 bg-[#3B455A] rounded-xl focus:ring-2 focus:ring-[#1CE7D0] focus:border-transparent transition-all text-white"
+              placeholder="John Doe"
               required
               disabled={loading}
             />
           </div>
 
           <div>
-            <label htmlFor="email" className="block text-sm font-semibold text-gray-700 mb-2">
+            <label htmlFor="email" className="block text-sm font-semibold text-white mb-2">
               Email Address
             </label>
             <input
@@ -150,7 +184,7 @@ export default function RegisterPage() {
               type="email"
               value={formData.email}
               onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-              className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#1CE7D0] focus:border-transparent transition-all text-gray-900"
+              className="w-full px-4 py-3 border border-white/10 bg-[#3B455A] rounded-xl focus:ring-2 focus:ring-[#1CE7D0] focus:border-transparent transition-all text-white"
               placeholder="you@example.com"
               required
               disabled={loading}
@@ -158,7 +192,45 @@ export default function RegisterPage() {
           </div>
 
           <div>
-            <label htmlFor="password" className="block text-sm font-semibold text-gray-700 mb-2">
+            <label htmlFor="phone" className="block text-sm font-semibold text-white mb-2">
+              Phone Number (WhatsApp)
+            </label>
+            <input
+              id="phone"
+              type="tel"
+              value={formData.phone}
+              onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+              className="w-full px-4 py-3 border border-white/10 bg-[#3B455A] rounded-xl focus:ring-2 focus:ring-[#1CE7D0] focus:border-transparent transition-all text-white"
+              placeholder="+234 xxx xxx xxxx"
+              required
+              disabled={loading}
+            />
+          </div>
+
+          <div>
+            <label htmlFor="country" className="block text-sm font-semibold text-white mb-2">
+              Country
+            </label>
+            <select
+              id="country"
+              value={formData.country}
+              onChange={(e) => setFormData({ ...formData, country: e.target.value })}
+              className="w-full px-4 py-3 border border-white/10 bg-[#3B455A] rounded-xl focus:ring-2 focus:ring-[#1CE7D0] focus:border-transparent transition-all text-white"
+              required
+              disabled={loading}
+            >
+              <option value="">Select your country</option>
+              <option value="Nigeria">Nigeria</option>
+              <option value="United Kingdom">United Kingdom</option>
+              <option value="United States">United States</option>
+              <option value="Canada">Canada</option>
+              <option value="Ghana">Ghana</option>
+              <option value="South Africa">South Africa</option>
+            </select>
+          </div>
+
+          <div>
+            <label htmlFor="password" className="block text-sm font-semibold text-white mb-2">
               Password
             </label>
             <input
@@ -166,17 +238,17 @@ export default function RegisterPage() {
               type="password"
               value={formData.password}
               onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-              className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#1CE7D0] focus:border-transparent transition-all text-gray-900"
+              className="w-full px-4 py-3 border border-white/10 bg-[#3B455A] rounded-xl focus:ring-2 focus:ring-[#1CE7D0] focus:border-transparent transition-all text-white"
               placeholder="••••••••"
               required
               disabled={loading}
               minLength={6}
             />
-            <p className="text-xs text-gray-500 mt-1">Must be at least 6 characters</p>
+            <p className="text-xs text-white/50 mt-1">Must be at least 6 characters</p>
           </div>
 
           <div>
-            <label htmlFor="confirmPassword" className="block text-sm font-semibold text-gray-700 mb-2">
+            <label htmlFor="confirmPassword" className="block text-sm font-semibold text-white mb-2">
               Confirm Password
             </label>
             <input
@@ -184,7 +256,7 @@ export default function RegisterPage() {
               type="password"
               value={formData.confirmPassword}
               onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
-              className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#1CE7D0] focus:border-transparent transition-all text-gray-900"
+              className="w-full px-4 py-3 border border-white/10 bg-[#3B455A] rounded-xl focus:ring-2 focus:ring-[#1CE7D0] focus:border-transparent transition-all text-white"
               placeholder="••••••••"
               required
               disabled={loading}
@@ -193,7 +265,7 @@ export default function RegisterPage() {
 
           <Button
             type="submit"
-            className="w-full bg-[#FFC857] text-[#0D1B2A] font-bold text-sm uppercase tracking-wider rounded-full py-4 hover:bg-[#f5b732] transition-all shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full bg-linear-to-r from-[#A546FF] via-[#DA2A8A] to-[#17B8E1] text-white font-bold text-sm uppercase tracking-wider rounded-2xl py-4 hover:opacity-90 transition-all shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
             disabled={loading}
           >
             {loading ? (
@@ -209,13 +281,13 @@ export default function RegisterPage() {
 
         {/* Footer */}
         <div className="mt-6 text-center space-y-3">
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-white/60">
             Already have an account?{" "}
-            <Link href="/login" className="text-[#1CE7D0] font-semibold hover:underline">
-              Sign In
+            <Link href="/login" className="text-[#A08AF9] font-semibold hover:underline">
+              Log in
             </Link>
           </p>
-          <Link href="/" className="text-xs text-gray-500 hover:text-gray-700 block">
+          <Link href="/" className="text-xs text-white/40 hover:text-white/70 block">
             ← Back to Home
           </Link>
         </div>

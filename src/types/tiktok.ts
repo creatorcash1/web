@@ -24,6 +24,10 @@ export interface TikTokRequest {
     full_name: string;
     email: string;
   };
+  tiktok_groups?: {
+    name: string;
+    invite_url: string | null;
+  } | null;
 }
 
 export interface TikTokGroup {

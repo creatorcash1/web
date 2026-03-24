@@ -14,9 +14,15 @@ function SuccessContent() {
   const sessionId = searchParams.get("session_id");
   const productId = searchParams.get("product_id");
   const productType = searchParams.get("product_type");
-  const hasInvalidSession = !sessionId;
+  const freeOffer = searchParams.get("free_offer") === "1";
+  const hasInvalidSession = !sessionId && !freeOffer;
 
   useEffect(() => {
+    if (freeOffer) {
+      setProcessing(false);
+      return;
+    }
+
     if (!sessionId) return;
 
     // Give webhook time to process (it runs in background)
@@ -25,7 +31,7 @@ function SuccessContent() {
     }, 2000);
 
     return () => clearTimeout(timer);
-  }, [sessionId]);
+  }, [sessionId, freeOffer]);
 
   if (hasInvalidSession) {
     return (
@@ -85,10 +91,12 @@ function SuccessContent() {
 
         {/* Success Message */}
         <h1 className="text-3xl font-extrabold text-[#0D1B2A] mb-3 font-(family-name:--font-montserrat)">
-          Payment Successful!
+          {freeOffer ? "Access Activated!" : "Payment Successful!"}
         </h1>
         <p className="text-gray-600 mb-8 text-lg">
-          🎉 Your purchase has been confirmed. You now have full access to your content!
+          {freeOffer
+            ? "🎉 Your free course access has been activated. You now have full access to your content!"
+            : "🎉 Your purchase has been confirmed. You now have full access to your content!"}
         </p>
 
         {/* What's Next */}

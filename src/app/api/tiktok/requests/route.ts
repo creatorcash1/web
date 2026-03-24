@@ -14,7 +14,7 @@ export async function GET(request: Request) {
 
   const query = supabase
     .from("tiktok_requests")
-    .select("*, users!inner(full_name, email)")
+    .select("*, users(full_name, email), tiktok_groups(name, invite_url)")
     .order("created_at", { ascending: true });
 
   if (status) {

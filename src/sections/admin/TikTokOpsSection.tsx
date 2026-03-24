@@ -155,6 +155,9 @@ export default function TikTokOpsSection() {
                 <div className="flex-1">
                   <p className="text-white font-semibold">{req.full_name}</p>
                   <p className="text-white/60 text-sm">{req.email} · {req.phone}</p>
+                  {req.tiktok_groups?.name && (
+                    <p className="text-[#1CE7D0] text-xs mt-1">Group: {req.tiktok_groups.name}</p>
+                  )}
                   <p className="text-white/40 text-xs mt-1">Requested on {new Date(req.created_at).toLocaleDateString()}</p>
                 </div>
                 <div className="flex items-center gap-2">

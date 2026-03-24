@@ -3,11 +3,13 @@
 // badge, and gold CTA button.
 // ─────────────────────────────────────────────────────────────────────────────
 import Button from "@/components/Button";
+import FreeOfferCountdown from "@/components/FreeOfferCountdown";
 import {
   CheckBadgeIcon,
   UserGroupIcon,
   GiftIcon,
 } from "@heroicons/react/24/solid";
+import { FREE_COURSE_OFFER_END_AT, isFreeCourseOfferActive } from "@/lib/freeOffer";
 
 const perks = [
   { Icon: CheckBadgeIcon, text: "2 complete video trainings (97 minutes total)" },
@@ -18,6 +20,8 @@ const perks = [
 ];
 
 export default function LiveOfferSection() {
+  const isFree = isFreeCourseOfferActive();
+
   return (
     <section
       id="offer"
@@ -50,7 +54,7 @@ export default function LiveOfferSection() {
             >
               Get Started Today —
               <br />
-              <span className="text-[#FFC857]">$10k System</span> for Just $57.99
+              <span className="text-[#FFC857]">$10k System</span> for {isFree ? "FREE" : "Just $57.99"}
             </h2>
 
             <p className="text-gray-600 text-lg mb-8">
@@ -88,9 +92,22 @@ export default function LiveOfferSection() {
 
               {/* Price */}
               <div className="flex items-end gap-3 mb-2">
-                <span className="text-5xl font-black text-[#FFC857]">$57.99</span>
+                {isFree ? (
+                  <>
+                    <span className="text-3xl font-bold text-white/50 line-through">$57.99</span>
+                    <span className="text-5xl font-black text-[#FFC857]">$0</span>
+                  </>
+                ) : (
+                  <span className="text-5xl font-black text-[#FFC857]">$57.99</span>
+                )}
               </div>
               <p className="text-white/60 text-sm mb-6">One-time payment · Lifetime access</p>
+              {isFree && (
+                <div className="mb-6">
+                  <p className="text-white/70 text-xs uppercase tracking-widest mb-1">Free offer ends in</p>
+                  <FreeOfferCountdown targetDate={FREE_COURSE_OFFER_END_AT} />
+                </div>
+              )}
 
               {/* What's included */}
               <div className="bg-white/5 rounded-2xl p-4 mb-8">
@@ -104,7 +121,7 @@ export default function LiveOfferSection() {
 
               {/* CTA */}
               <Button variant="primary" size="lg" href="/register?redirect=checkout" fullWidth>
-                Start Learning Now
+                {isFree ? "Get Free Access" : "Start Learning Now"}
               </Button>
 
               <p className="text-center text-white/40 text-xs mt-4">

@@ -3,8 +3,11 @@
 // ─────────────────────────────────────────────────────────────────────────────
 import Accordion from "@/components/Accordion";
 import Button from "@/components/Button";
+import { isFreeCourseOfferActive } from "@/lib/freeOffer";
 
 export default function FAQSection() {
+  const isFree = isFreeCourseOfferActive();
+
   return (
     <section
       id="faq"
@@ -47,7 +50,9 @@ export default function FAQSection() {
               Ready to build your $10k system?
             </h3>
             <p className="text-white/60 text-sm">
-              Get instant access to the complete training for $57.99
+              {isFree
+                ? "Get instant access to the complete training for FREE (limited time)"
+                : "Get instant access to the complete training for $57.99"}
             </p>
           </div>
           <Button variant="primary" size="lg" href="/register?redirect=checkout">
