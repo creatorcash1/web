@@ -4,10 +4,13 @@
 "use client";
 
 import { useEffect, useState, Suspense } from "react";
+import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
+import UserAppShell from "@/components/user/UserAppShell";
 
 function SuccessContent() {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const [processing, setProcessing] = useState(true);
 
@@ -33,9 +36,21 @@ function SuccessContent() {
     return () => clearTimeout(timer);
   }, [sessionId, freeOffer]);
 
+  useEffect(() => {
+    if (processing) return;
+    if (productType !== "course" || !productId) return;
+
+    const timer = setTimeout(() => {
+      router.replace(`/courses/${productId}/lessons`);
+    }, 1500);
+
+    return () => clearTimeout(timer);
+  }, [processing, productType, productId, router]);
+
   if (hasInvalidSession) {
     return (
-      <div className="min-h-screen bg-linear-to-br from-[#0D1B2A] to-[#1a2f42] flex items-center justify-center px-4">
+      <UserAppShell>
+      <div className="min-h-[60vh] flex items-center justify-center px-4">
         <div className="max-w-md w-full bg-white rounded-2xl shadow-2xl p-8 text-center">
           <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
             <span className="text-3xl">✗</span>
@@ -52,12 +67,14 @@ function SuccessContent() {
           </Link>
         </div>
       </div>
+      </UserAppShell>
     );
   }
 
   if (processing) {
     return (
-      <div className="min-h-screen bg-linear-to-br from-[#0D1B2A] to-[#1a2f42] flex items-center justify-center px-4">
+      <UserAppShell>
+      <div className="min-h-[60vh] flex items-center justify-center px-4">
         <div className="max-w-md w-full bg-white rounded-2xl shadow-2xl p-8 text-center">
           <div className="w-16 h-16 border-4 border-[#FFC857] border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
           <h1 className="text-2xl font-bold text-[#0D1B2A] mb-2 font-(family-name:--font-montserrat)">
@@ -68,11 +85,13 @@ function SuccessContent() {
           </p>
         </div>
       </div>
+      </UserAppShell>
     );
   }
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-[#0D1B2A] to-[#1a2f42] flex items-center justify-center px-4">
+    <UserAppShell>
+    <div className="min-h-[60vh] flex items-center justify-center px-4">
       <div className="max-w-lg w-full bg-white rounded-2xl shadow-2xl p-8 text-center">
         {/* Success Icon */}
         <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
@@ -160,7 +179,7 @@ function SuccessContent() {
           </Link>
           {productType === "course" && (
             <Link
-              href={`/courses/${productId}`}
+              href={`/courses/${productId}/lessons`}
               className="flex-1 bg-[#1CE7D0] text-white font-bold text-sm uppercase tracking-wider rounded-full py-4 hover:bg-[#19d4bd] transition-all text-center"
             >
               Start Learning
@@ -174,15 +193,18 @@ function SuccessContent() {
         </p>
       </div>
     </div>
+    </UserAppShell>
   );
 }
 
 export default function CheckoutSuccessPage() {
   return (
     <Suspense fallback={
-      <div className="min-h-screen bg-linear-to-br from-[#0D1B2A] to-[#1a2f42] flex items-center justify-center px-4">
+      <UserAppShell>
+      <div className="min-h-[60vh] flex items-center justify-center px-4">
         <div className="w-16 h-16 border-4 border-[#FFC857] border-t-transparent rounded-full animate-spin"></div>
       </div>
+      </UserAppShell>
     }>
       <SuccessContent />
     </Suspense>

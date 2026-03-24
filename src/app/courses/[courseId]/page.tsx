@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { fetchCourseById } from "@/services/catalog";
 import { trackEvent } from "@/lib/analytics";
 import type { DashboardData, EnrolledCourse } from "@/types/dashboard";
+import UserAppShell from "@/components/user/UserAppShell";
 
 export default function CourseDetailPage() {
   const params = useParams<{ courseId: string }>();
@@ -18,6 +19,8 @@ export default function CourseDetailPage() {
   const [showRequestForm, setShowRequestForm] = useState(false);
   const [requestSubmitting, setRequestSubmitting] = useState(false);
   const [requestSuccess, setRequestSuccess] = useState(false);
+  const [enrolling, setEnrolling] = useState(false);
+  const [showEnrollSuccess, setShowEnrollSuccess] = useState(false);
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -65,17 +68,66 @@ export default function CourseDetailPage() {
   const enrolledCourse: EnrolledCourse | undefined = dashboard?.courses?.find((courseItem) => courseItem.id === courseId);
   const isPromoEnrollment = enrolledCourse?.access_source === "promo";
   const enrolled = Boolean(enrolledCourse) || joined;
+  const isFreeCourse = Number(course?.price ?? 0) <= 0;
+
+  async function handleEnrollNow() {
+    if (enrolling || enrolled) return;
+
+    if (!isFreeCourse) {
+      window.location.href = `/checkout/${courseId}`;
+      return;
+    }
+
+    setEnrolling(true);
+    try {
+      const res = await fetch("/api/enroll", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ productId: courseId, accessSource: "promo" }),
+      });
+
+      if (res.status === 401) {
+        window.location.href = `/login?redirect=/courses/${courseId}`;
+        return;
+      }
+
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({ error: "Failed to enroll" }));
+        throw new Error(data.error || "Failed to enroll");
+      }
+
+      setShowEnrollSuccess(true);
+      const refreshed = await fetch("/api/dashboard");
+      if (refreshed.ok) {
+        const data = (await refreshed.json()) as DashboardData;
+        setDashboard(data);
+      }
+    } catch (error: any) {
+      alert(error?.message || "Could not enroll right now.");
+    } finally {
+      setEnrolling(false);
+    }
+  }
 
   if (isLoading) {
-    return <main className="p-8 text-sm text-gray-500">Loading course…</main>;
+    return (
+      <UserAppShell>
+        <main className="max-w-5xl mx-auto p-8 text-sm text-gray-500">Loading course…</main>
+      </UserAppShell>
+    );
   }
 
   if (!course) {
-    return <main className="p-8 text-sm text-red-500">Course not found.</main>;
+    return (
+      <UserAppShell>
+        <main className="max-w-5xl mx-auto p-8 text-sm text-red-500">Course not found.</main>
+      </UserAppShell>
+    );
   }
 
   return (
-    <main className="min-h-screen bg-[#F7F8FA] px-4 sm:px-6 lg:px-8 py-10">
+    <UserAppShell>
+      <main className="max-w-5xl mx-auto">
       <div className="max-w-5xl mx-auto bg-white border border-[#E5E5E5] rounded-2xl p-6 md:p-8">
         <h1 className="text-3xl font-black text-[#0D1B2A]">{course.title}</h1>
         <p className="text-gray-500 mt-3">{course.description}</p>
@@ -96,12 +148,50 @@ export default function CourseDetailPage() {
           ))}
         </div>
 
-        <div className="mt-8 flex flex-wrap gap-3">
-          {!enrolled && (
-            <Link href={`/checkout/${courseId}`} className="px-5 py-2.5 rounded-lg bg-[#FFC857] text-[#0D1B2A] text-xs font-bold uppercase">Buy Now — ${course.price}</Link>
-          )}
-          <Link href={enrolled ? `/courses/${courseId}/lessons` : `/checkout/${courseId}`} className="px-5 py-2.5 rounded-lg bg-[#0D1B2A] text-white text-xs font-bold uppercase">{enrolled ? "Start Course" : "Unlock Course"}</Link>
-        </div>
+        {!showEnrollSuccess && (
+          <div className="mt-8 flex flex-wrap gap-3">
+            {enrolled ? (
+              <Link href={`/courses/${courseId}/lessons`} className="px-5 py-2.5 rounded-lg bg-[#0D1B2A] text-white text-xs font-bold uppercase">Start Learning</Link>
+            ) : (
+              <button
+                type="button"
+                onClick={handleEnrollNow}
+                disabled={enrolling}
+                className="px-5 py-2.5 rounded-lg bg-[#FFC857] text-[#0D1B2A] text-xs font-bold uppercase disabled:opacity-60"
+              >
+                {enrolling ? "Enrolling..." : isFreeCourse ? "Enroll Now — Free" : `Enroll Now — $${course.price}`}
+              </button>
+            )}
+          </div>
+        )}
+
+        {showEnrollSuccess && (
+          <div className="mt-8 rounded-2xl border border-emerald-300/60 bg-emerald-50 p-6 relative overflow-hidden">
+            <div className="absolute inset-0 pointer-events-none">
+              {Array.from({ length: 24 }).map((_, index) => (
+                <span
+                  key={index}
+                  className="absolute text-lg animate-bounce"
+                  style={{
+                    left: `${(index * 17) % 100}%`,
+                    top: `${(index * 29) % 70}%`,
+                    animationDelay: `${(index % 8) * 0.1}s`,
+                  }}
+                >
+                  {index % 3 === 0 ? "🎉" : index % 3 === 1 ? "✨" : "🎊"}
+                </span>
+              ))}
+            </div>
+            <p className="relative text-lg font-black text-[#0D1B2A]">Congratulations! You have enrolled successfully.</p>
+            <p className="relative text-sm text-[#0D1B2A]/70 mt-1">Your course is unlocked. Start learning now.</p>
+            <Link
+              href={`/courses/${courseId}/lessons`}
+              className="relative mt-4 inline-flex items-center justify-center px-5 py-2.5 rounded-lg bg-[#0D1B2A] text-white text-xs font-bold uppercase"
+            >
+              Start Learning
+            </Link>
+          </div>
+        )}
 
         {enrolled && isPromoEnrollment && (
           <div className="mt-10 border border-[#1CE7D0]/30 bg-[#1CE7D0]/5 rounded-2xl p-6">
@@ -181,6 +271,7 @@ export default function CourseDetailPage() {
           </div>
         )}
       </div>
-    </main>
+      </main>
+    </UserAppShell>
   );
 }

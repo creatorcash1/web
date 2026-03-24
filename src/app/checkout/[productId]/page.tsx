@@ -6,6 +6,7 @@ import { useState } from "react";
 import { enrollAfterPayment } from "@/services/payments";
 import FreeOfferCountdown from "@/components/FreeOfferCountdown";
 import { FREE_COURSE_ID, FREE_COURSE_OFFER_END_AT, isFreeCourseOfferActive } from "@/lib/freeOffer";
+import UserAppShell from "@/components/user/UserAppShell";
 
 export default function CheckoutPage() {
   const params = useParams<{ productId: string }>();
@@ -75,7 +76,7 @@ export default function CheckoutPage() {
   }
 
   return (
-    <main className="min-h-screen bg-[#F7F8FA] px-4 sm:px-6 lg:px-8 py-10">
+    <UserAppShell>
       <div className="max-w-2xl mx-auto bg-white border border-[#E5E5E5] rounded-2xl p-6 md:p-8">
         <h1 className="text-2xl font-black text-[#0D1B2A]">Checkout</h1>
         <p className="text-gray-500 mt-2">Product: {productId}</p>
@@ -129,6 +130,6 @@ export default function CheckoutPage() {
           {promoMessage && <p className="mt-2 text-sm text-[#0D1B2A]">{promoMessage}</p>}
         </div>
       </div>
-    </main>
+    </UserAppShell>
   );
 }

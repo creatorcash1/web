@@ -4,6 +4,8 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import {
   HomeIcon,
   AcademicCapIcon,
@@ -14,6 +16,7 @@ import {
   Cog6ToothIcon,
   XMarkIcon,
   SparklesIcon,
+  ArrowLeftOnRectangleIcon,
 } from "@heroicons/react/24/outline";
 import {
   useDashboardStore,
@@ -39,10 +42,24 @@ const navItems: NavItem[] = [
 ];
 
 export default function Sidebar() {
+  const router = useRouter();
   const activeSection   = useDashboardStore((s) => s.activeSection);
   const setActive       = useDashboardStore((s) => s.setActiveSection);
   const sidebarOpen     = useDashboardStore((s) => s.sidebarOpen);
   const setSidebarOpen  = useDashboardStore((s) => s.setSidebarOpen);
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
+
+  async function handleLogout() {
+    if (isLoggingOut) return;
+    try {
+      setIsLoggingOut(true);
+      await fetch("/api/auth/signout", { method: "POST" });
+      router.push("/login");
+      router.refresh();
+    } finally {
+      setIsLoggingOut(false);
+    }
+  }
 
   return (
     <>
@@ -183,6 +200,15 @@ export default function Sidebar() {
             </div>
             <Cog6ToothIcon className="w-4 h-4 text-white/30" />
           </div>
+          <button
+            type="button"
+            onClick={handleLogout}
+            disabled={isLoggingOut}
+            className="mt-3 w-full inline-flex items-center justify-center gap-2 py-2.5 rounded-xl border border-white/10 text-white/70 text-xs font-semibold hover:text-white hover:bg-white/5 transition-all disabled:opacity-60"
+          >
+            <ArrowLeftOnRectangleIcon className="w-4 h-4" />
+            {isLoggingOut ? "Logging out..." : "Log Out"}
+          </button>
         </div>
       </aside>
     </>

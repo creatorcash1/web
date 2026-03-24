@@ -1,9 +1,10 @@
 import Link from "next/link";
 import { COURSE_CATALOG } from "@/services/catalog";
+import UserAppShell from "@/components/user/UserAppShell";
 
 export default function CoursesPage() {
   return (
-    <main className="min-h-screen bg-[#F7F8FA] px-4 sm:px-6 lg:px-8 py-10">
+    <UserAppShell>
       <div className="max-w-6xl mx-auto">
         <h1 className="text-3xl font-black text-[#0D1B2A] mb-2">Courses</h1>
         <p className="text-gray-500 mb-8">Explore premium programs and start learning.</p>
@@ -15,13 +16,12 @@ export default function CoursesPage() {
               <p className="text-sm text-gray-500 mt-2 min-h-12">{course.description}</p>
               <p className="text-xl font-black text-[#FFC857] mt-4">${course.price}</p>
               <div className="mt-4 flex gap-2">
-                <Link href={`/courses/${course.courseId}`} className="px-4 py-2 rounded-lg bg-[#0D1B2A] text-white text-xs font-bold uppercase">Learn More</Link>
-                <Link href={`/checkout/${course.courseId}`} className="px-4 py-2 rounded-lg bg-[#FFC857] text-[#0D1B2A] text-xs font-bold uppercase">Buy Now</Link>
+                <Link href={`/courses/${course.courseId}`} className="px-4 py-2 rounded-lg bg-[#0D1B2A] text-white text-xs font-bold uppercase">Enroll Now</Link>
               </div>
             </article>
           ))}
         </div>
       </div>
-    </main>
+    </UserAppShell>
   );
 }

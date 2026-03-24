@@ -1,9 +1,10 @@
 import Link from "next/link";
 import { PDF_CATALOG } from "@/services/catalog";
+import UserAppShell from "@/components/user/UserAppShell";
 
 export default function PDFsPage() {
   return (
-    <main className="min-h-screen bg-[#F7F8FA] px-4 sm:px-6 lg:px-8 py-10">
+    <UserAppShell>
       <div className="max-w-6xl mx-auto">
         <h1 className="text-3xl font-black text-[#0D1B2A] mb-2">PDF Library</h1>
         <p className="text-gray-500 mb-8">Digital products and template packs.</p>
@@ -22,6 +23,6 @@ export default function PDFsPage() {
           ))}
         </div>
       </div>
-    </main>
+    </UserAppShell>
   );
 }

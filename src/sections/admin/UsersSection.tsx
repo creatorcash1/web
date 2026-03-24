@@ -4,13 +4,31 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 import { useState } from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import AdminTable, { type Column } from "@/components/admin/AdminTable";
 import StatusBadge from "@/components/admin/StatusBadge";
+import { deleteUserByAdmin, setUserSuspended } from "@/services/admin";
 import type { AdminUser } from "@/types/admin";
 
 export default function AdminUsersSection({ users }: { users: AdminUser[] }) {
   const [filter, setFilter] = useState<"all" | "active" | "suspended" | "banned">("all");
   const [search, setSearch] = useState("");
+  const queryClient = useQueryClient();
+
+  const suspendMutation = useMutation({
+    mutationFn: ({ userId, suspended }: { userId: string; suspended: boolean }) =>
+      setUserSuspended(userId, suspended),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["admin-dashboard"] });
+    },
+  });
+
+  const deleteMutation = useMutation({
+    mutationFn: (userId: string) => deleteUserByAdmin(userId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["admin-dashboard"] });
+    },
+  });
 
   const filtered = users.filter((u) => {
     if (filter !== "all" && u.status !== filter) return false;
@@ -83,6 +101,46 @@ export default function AdminUsersSection({ users }: { users: AdminUser[] }) {
           })}
         </span>
       ),
+    },
+    {
+      key: "actions",
+      header: "Actions",
+      width: "w-52",
+      render: (u) => {
+        const isSuspended = u.status === "suspended";
+        const isBusy = suspendMutation.isPending || deleteMutation.isPending;
+
+        return (
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              disabled={isBusy}
+              onClick={() => suspendMutation.mutate({ userId: u.id, suspended: !isSuspended })}
+              className={`px-2.5 py-1 rounded-md text-xs font-semibold border transition-colors disabled:opacity-50 ${
+                isSuspended
+                  ? "border-emerald-400/30 text-emerald-300 hover:bg-emerald-500/10"
+                  : "border-amber-400/30 text-amber-300 hover:bg-amber-500/10"
+              }`}
+            >
+              {isSuspended ? "Unsuspend" : "Suspend"}
+            </button>
+
+            <button
+              type="button"
+              disabled={isBusy}
+              onClick={() => {
+                const ok = window.confirm(`Delete ${u.full_name}? This will remove their login access.`);
+                if (ok) {
+                  deleteMutation.mutate(u.id);
+                }
+              }}
+              className="px-2.5 py-1 rounded-md text-xs font-semibold border border-red-400/30 text-red-300 hover:bg-red-500/10 disabled:opacity-50"
+            >
+              Delete
+            </button>
+          </div>
+        );
+      },
     },
   ];
 

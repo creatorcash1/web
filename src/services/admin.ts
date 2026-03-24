@@ -708,3 +708,29 @@ export async function fetchAdminDashboard(): Promise<AdminDashboardData> {
   return data;
 }
 
+export async function setUserSuspended(userId: string, suspended: boolean): Promise<void> {
+  const response = await fetch(`/api/admin/users/${userId}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ suspended }),
+    credentials: "include",
+  });
+
+  if (!response.ok) {
+    const err = await response.json().catch(() => ({ error: "Failed to update user" }));
+    throw new Error(err.error || "Failed to update user");
+  }
+}
+
+export async function deleteUserByAdmin(userId: string): Promise<void> {
+  const response = await fetch(`/api/admin/users/${userId}`, {
+    method: "DELETE",
+    credentials: "include",
+  });
+
+  if (!response.ok) {
+    const err = await response.json().catch(() => ({ error: "Failed to delete user" }));
+    throw new Error(err.error || "Failed to delete user");
+  }
+}
+

@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import { fetchPDFById } from "@/services/catalog";
 import { fetchDashboardData } from "@/services/dashboard";
 import { trackEvent } from "@/lib/analytics";
+import UserAppShell from "@/components/user/UserAppShell";
 
 export default function PDFDetailPage() {
   const params = useParams<{ pdfId: string }>();
@@ -41,13 +42,14 @@ export default function PDFDetailPage() {
     });
   }, [trackingId, trackingUser, pdfId]);
 
-  if (isLoading) return <main className="p-8 text-sm text-gray-500">Loading PDF…</main>;
-  if (!pdf) return <main className="p-8 text-sm text-red-500">PDF not found.</main>;
+  if (isLoading) return <UserAppShell><main className="max-w-3xl mx-auto p-8 text-sm text-gray-500">Loading PDF…</main></UserAppShell>;
+  if (!pdf) return <UserAppShell><main className="max-w-3xl mx-auto p-8 text-sm text-red-500">PDF not found.</main></UserAppShell>;
 
   const hasPurchased = dashboard?.pdfs.some((p) => p.id === pdfId) ?? false;
 
   return (
-    <main className="min-h-screen bg-[#F7F8FA] px-4 sm:px-6 lg:px-8 py-10">
+    <UserAppShell>
+      <main className="max-w-3xl mx-auto">
       <div className="max-w-3xl mx-auto bg-white border border-[#E5E5E5] rounded-2xl p-6 md:p-8">
         <h1 className="text-2xl font-black text-[#0D1B2A]">{pdf.title}</h1>
         <p className="text-gray-500 mt-3">{pdf.description}</p>
@@ -64,6 +66,7 @@ export default function PDFDetailPage() {
           <Link href={`/checkout/${pdfId}`} className="px-5 py-2.5 rounded-lg bg-[#FFC857] text-[#0D1B2A] text-xs font-bold uppercase">Buy Now — ${pdf.price}</Link>
         </div>
       </div>
-    </main>
+      </main>
+    </UserAppShell>
   );
 }

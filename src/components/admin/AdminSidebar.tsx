@@ -16,7 +16,10 @@ import {
   XMarkIcon,
   CpuChipIcon,
   MegaphoneIcon,
+  ArrowLeftOnRectangleIcon,
 } from "@heroicons/react/24/outline";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { useAdminStore, type AdminSection } from "@/stores/adminStore";
 
 const NAV_ITEMS: { key: AdminSection; label: string; Icon: React.ComponentType<React.SVGProps<SVGSVGElement>> }[] = [
@@ -34,10 +37,24 @@ const NAV_ITEMS: { key: AdminSection; label: string; Icon: React.ComponentType<R
 ];
 
 export default function AdminSidebar() {
+  const router = useRouter();
   const activeSection = useAdminStore((s) => s.activeSection);
   const setActiveSection = useAdminStore((s) => s.setActiveSection);
   const sidebarOpen = useAdminStore((s) => s.sidebarOpen);
   const setSidebarOpen = useAdminStore((s) => s.setSidebarOpen);
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
+
+  async function handleLogout() {
+    if (isLoggingOut) return;
+    try {
+      setIsLoggingOut(true);
+      await fetch("/api/auth/signout", { method: "POST" });
+      router.push("/login");
+      router.refresh();
+    } finally {
+      setIsLoggingOut(false);
+    }
+  }
 
   return (
     <>
@@ -108,6 +125,15 @@ export default function AdminSidebar() {
 
         {/* Footer */}
         <div className="px-5 py-4 border-t border-white/10">
+          <button
+            type="button"
+            onClick={handleLogout}
+            disabled={isLoggingOut}
+            className="mb-3 w-full inline-flex items-center justify-center gap-2 py-2 rounded-lg border border-white/10 text-white/70 text-xs font-semibold hover:text-white hover:bg-white/5 transition-all disabled:opacity-60"
+          >
+            <ArrowLeftOnRectangleIcon className="w-4 h-4" />
+            {isLoggingOut ? "Logging out..." : "Log Out"}
+          </button>
           <p className="text-xs text-white/30">v1.0.0 — Admin</p>
         </div>
       </aside>
