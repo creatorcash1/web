@@ -10,15 +10,25 @@ import type { DashboardData } from "@/types/dashboard";
  */
 export async function fetchDashboardData(userId: string): Promise<DashboardData> {
   const supabase = await createServerSupabaseClient();
+  const {
+    data: { user: authUser },
+  } = await supabase.auth.getUser();
 
   // Fetch user profile
   const { data: user } = await supabase
     .from("users")
     .select("*")
     .eq("id", userId)
-    .single();
+    .maybeSingle();
 
-  if (!user) throw new Error("User not found");
+  const resolvedUser = user ?? {
+    id: userId,
+    full_name: authUser?.user_metadata?.full_name ?? authUser?.email?.split("@")[0] ?? "User",
+    email: authUser?.email ?? "",
+    role: "user",
+    avatar_url: authUser?.user_metadata?.avatar_url ?? null,
+    created_at: authUser?.created_at ?? new Date().toISOString(),
+  };
 
   // Fetch enrolled courses with progress
   const { data: enrollments } = await supabase
@@ -46,7 +56,8 @@ export async function fetchDashboardData(userId: string): Promise<DashboardData>
         title,
         description,
         price,
-        thumbnail_url
+        thumbnail_url,
+        file_url
       )
     `)
     .eq("user_id", userId)
@@ -94,12 +105,12 @@ export async function fetchDashboardData(userId: string): Promise<DashboardData>
 
   return {
     user: {
-      id: user.id,
-      full_name: user.full_name,
-      email: user.email,
-      role: user.role,
-      avatar_url: user.avatar_url || undefined,
-      created_at: user.created_at,
+      id: resolvedUser.id,
+      full_name: resolvedUser.full_name,
+      email: resolvedUser.email,
+      role: resolvedUser.role,
+      avatar_url: resolvedUser.avatar_url || undefined,
+      created_at: resolvedUser.created_at,
     },
     stats: {
       enrolled_courses: enrolledCourses,
@@ -107,25 +118,29 @@ export async function fetchDashboardData(userId: string): Promise<DashboardData>
       active_bookings: activeBookings,
       digital_assets: digitalAssets,
     },
-    courses: (enrollments || []).map((e: any) => ({
-      id: e.courses.id,
-      title: e.courses.title,
-      description: e.courses.description,
-      thumbnail_url: e.courses.thumbnail_url,
-      progress: e.progress || 0,
-      enrolled_at: e.enrolled_at,
-      completed_at: e.completed_at,
-      access_source: e.access_source || "purchase",
-    })),
-    pdfs: (pdfPurchases || []).map((p: any) => ({
-      id: p.pdfs.id,
-      title: p.pdfs.title,
-      description: p.pdfs.description,
-      price: parseFloat(p.pdfs.price),
-      cover_url: p.pdfs.thumbnail_url,
-      download_url: p.pdfs.file_url,
-      purchased_at: p.purchased_at,
-    })),
+    courses: (enrollments || [])
+      .filter((e: any) => Boolean(e?.courses?.id))
+      .map((e: any) => ({
+        id: e.courses.id,
+        title: e.courses.title,
+        description: e.courses.description,
+        thumbnail_url: e.courses.thumbnail_url,
+        progress: e.progress || 0,
+        enrolled_at: e.enrolled_at,
+        completed_at: e.completed_at,
+        access_source: e.access_source || "purchase",
+      })),
+    pdfs: (pdfPurchases || [])
+      .filter((p: any) => Boolean(p?.pdfs?.id))
+      .map((p: any) => ({
+        id: p.pdfs.id,
+        title: p.pdfs.title,
+        description: p.pdfs.description,
+        price: parseFloat(p.pdfs.price),
+        cover_url: p.pdfs.thumbnail_url,
+        download_url: p.pdfs.file_url,
+        purchased_at: p.purchased_at,
+      })),
     bookings: (bookings || []).map((b: any) => ({
       id: b.id,
       product_id: b.mentorship_product_id,
