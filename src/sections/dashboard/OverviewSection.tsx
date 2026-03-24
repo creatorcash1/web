@@ -168,7 +168,7 @@ export default function OverviewSection({ data }: Props) {
                   requiresAuth: true,
                   requiresPurchase: false,
                   analyticsEvent: "dashboard_next_course_clicked",
-                  fallbackRoute: "/dashboard/courses",
+                  fallbackRoute: "/courses",
                 })
               }
             />
@@ -201,7 +201,7 @@ export default function OverviewSection({ data }: Props) {
             <span className="flex items-center justify-center w-8 h-8 rounded-xl bg-gradient-to-br from-teal-100 to-cyan-200 text-teal-600">🎯</span>
             Continue Learning
           </h3>
-          <a href="/dashboard/courses" className="text-sm font-semibold text-[#1CE7D0] hover:text-[#0D1B2A] transition-colors">
+          <a href="/courses" className="text-sm font-semibold text-[#1CE7D0] hover:text-[#0D1B2A] transition-colors">
             View all →
           </a>
         </div>
