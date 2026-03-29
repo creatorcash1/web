@@ -21,6 +21,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://creatorcashcow.org"),
   title: "CreatorCashCow — Build Your Creator Empire",
   description:
     "Learn to monetize social media, build digital products, and scale your creator income with CC Mendel. 5 premium courses, PDF products, and 1:1 mentorship.",
@@ -38,6 +39,25 @@ export const metadata: Metadata = {
     description: "From 0 to Platform Owner with CC Mendel.",
     siteName: "CreatorCashCow",
     type: "website",
+    images: [
+      {
+        url: "/logo.png",
+        width: 768,
+        height: 768,
+        alt: "CreatorCashCow Logo",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "CreatorCashCow — Build Your Creator Empire",
+    description: "From 0 to Platform Owner with CC Mendel.",
+    images: ["/logo.png"],
+  },
+  icons: {
+    icon: "/logo.png",
+    shortcut: "/logo.png",
+    apple: "/logo.png",
   },
 };
 
